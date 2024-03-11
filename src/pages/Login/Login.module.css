@@ -1,0 +1,176 @@
+.main_layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+@media screen and (min-width: 600px) {
+  .main_layout {
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    padding: 30px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main_layout {
+    padding: 40px;
+  }
+}
+
+.title_card {
+  margin-top: 20px;
+}
+
+.title {
+  font-family: var(--ff_Nunito);
+  font-weight: 700;
+  font-size: 55px;
+}
+
+.paragraph {
+  color: var(--light_black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.form_card {
+  margin-top: 40px;
+}
+
+.email_label {
+  font-family: var(--ff_Nunito);
+  color: var(--black);
+  font-size: 14px;
+  font-weight: 600;
+  /* margin-bottom: px; */
+}
+
+.email_input {
+  font-family: var(--ff_Nunito);
+  color: var(--black);
+  font-size: 14px;
+  height: 40px;
+  width: 100%;
+  border-radius: 7px;
+  border-style: solid;
+  border-color: var(--primary_border);
+  border-width: 1px;
+  margin-bottom: 20px;
+  padding: 15px;
+  outline: none;
+  font-family: var(--ff_Nunito);
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.password_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0px;
+  height: 40px;
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: var(--primary_border);
+  padding-right: 15px;
+}
+
+.password_input {
+  height: 35px;
+  width: 100%;
+  border-style: none;
+  padding: 15px;
+  outline: none;
+  font-family: var(--ff_Nunito);
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.keep_login_checkbox_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.keep_login_checkbox {
+  /* -webkit-appearance: none; */
+  /* appearance: none; */
+  height: 17px;
+  width: 17px;
+}
+
+.keep_login_checkbox_label {
+  font-family: var(--ff_Nunito);
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form_button_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  gap: 20px;
+}
+
+.login_button {
+  height: 45px;
+  width: 100%;
+  border-style: none;
+  border-radius: 6px;
+  background-color: var(--primary_accent);
+  color: var(--constant_white);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.forgot_button {
+  height: 45px;
+  width: 100%;
+  border-style: none;
+  border-radius: 6px;
+  background-color: var(--primary_card_bg);
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.signup_text_card {
+  height: fit-content;
+  width: 100%;
+  position: relative;
+  top: 90px;
+}
+
+.signup_text {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.signup_text > span {
+  color: var(--primary_accent);
+  cursor: pointer;
+}
+
+.eye_icon {
+  cursor: pointer;
+}
