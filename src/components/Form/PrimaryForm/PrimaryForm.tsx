@@ -19,7 +19,7 @@ import CustomButton, {
 } from "@components/Elements/CustomButton/CustomButton";
 
 export interface InputVariantType {
-  variant: "email" | "password_with_icon" | "date" | "text";
+  variant: "email" | "password" | "password_with_icon" | "date" | "text";
 }
 
 export interface InputElementProperties {
@@ -122,7 +122,25 @@ const PrimaryForm = ({
           );
 
         default:
-          return <></>;
+          return (
+            <div key={key}>
+              <label
+                htmlFor={properties.id}
+                className={defaultStyle.email_label}>
+                {properties.label}
+              </label>
+              <br />
+              <input
+                type={properties.type}
+                name={properties.name}
+                id={properties.id}
+                placeholder={properties.placeholder}
+                className={defaultStyle.email_input}
+                ref={properties.ref}
+              />
+              <br />
+            </div>
+          );
       }
     },
     [showPassword]
@@ -130,9 +148,11 @@ const PrimaryForm = ({
 
   return (
     <form className={defaultStyle.form_card} onSubmit={handleFormSubmit}>
-      {inputList.map((item, _index) => {
-        return findInputElement(item.variant, item, _index);
-      })}
+      <div className={defaultStyle.input_card}>
+        {inputList.map((item, _index) => {
+          return findInputElement(item.variant, item, _index);
+        })}
+      </div>
       {isCheckBox && (
         <div className={defaultStyle.keep_login_checkbox_card}>
           <input

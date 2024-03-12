@@ -52,7 +52,9 @@ const ForgotPassword = (): React.ReactElement => {
     navigate(routePaths.login);
   };
 
-  function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {}
+  function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
 
   return (
     <MaxWidthLayout>

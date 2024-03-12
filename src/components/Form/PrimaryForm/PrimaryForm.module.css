@@ -1,9 +1,15 @@
+.input_card {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 25px;
+}
+
 .email_label {
   font-family: var(--ff_Nunito);
   color: var(--black);
   font-size: 14px;
   font-weight: 600;
-  /* margin-bottom: px; */
 }
 
 .email_input {
@@ -16,7 +22,6 @@
   border-style: solid;
   border-color: var(--primary_border);
   border-width: 1px;
-  margin-bottom: 20px;
   padding: 15px;
   outline: none;
   font-family: var(--ff_Nunito);
