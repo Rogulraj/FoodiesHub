@@ -19,7 +19,13 @@ import CustomButton, {
 } from "@components/Elements/CustomButton/CustomButton";
 
 export interface InputVariantType {
-  variant: "email" | "password" | "password_with_icon" | "date" | "text";
+  variant:
+    | "email"
+    | "password"
+    | "password_with_icon"
+    | "date"
+    | "text"
+    | "number";
 }
 
 export interface InputElementProperties {
@@ -27,7 +33,7 @@ export interface InputElementProperties {
   name?: string;
   id: string;
   placeholder?: string;
-  type: "email" | "password" | "date" | "text";
+  type: "email" | "password" | "date" | "text" | "number";
   variant: InputVariantType["variant"];
   ref?: RefObject<HTMLInputElement>;
 }

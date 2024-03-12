@@ -1,10 +1,9 @@
 import React, { FormEvent, useMemo, useRef } from "react";
 
-//components
-import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
+//css
+import defaultStyle from "./AdditionalInfo.module.css";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
-
-import defaultStyle from "./PersonalDetails.module.css";
+import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
 import TimelineBar from "@components/Elements/TimelineBar/TimelineBar";
 import authTimelineList from "@constants/authTimeline";
@@ -15,40 +14,21 @@ import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomB
 import { useNavigate } from "react-router-dom";
 import routePaths from "@constants/routePaths";
 
-const PersonalDetails = (): React.ReactElement => {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+const AdditionalInfo = (): React.ReactElement => {
+  const numberRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
 
   const inputList = useMemo<InputElementProperties[]>(
     () => [
       {
-        id: "email",
-        variant: "email",
+        id: "number",
+        variant: "number",
         label: "Email",
-        type: "email",
-        name: "email",
-        placeholder: "name@example.com",
-        ref: emailRef,
-      },
-      {
-        variant: "password_with_icon",
-        type: "password",
-        id: "password",
-        name: "password",
-        label: "Password",
-        placeholder: "min. 8 characters",
-        ref: passwordRef,
-      },
-      {
-        variant: "password",
-        type: "password",
-        id: "password",
-        name: "password",
-        label: "Confirm Password",
-        placeholder: "min. 8 characters",
-        ref: passwordRef,
+        type: "number",
+        name: "number",
+        placeholder: "(217) 555-0113",
+        ref: numberRef,
       },
     ],
     []
@@ -77,7 +57,7 @@ const PersonalDetails = (): React.ReactElement => {
   }
 
   function handleBackButton() {
-    navigate(routePaths.signup);
+    navigate(routePaths.additionalInfo);
   }
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
@@ -87,25 +67,30 @@ const PersonalDetails = (): React.ReactElement => {
   return (
     <MaxWidthLayout>
       <div className={defaultStyle.main_layout}>
-        <CustomHelmet title="Personal Details" />
+        <CustomHelmet title="Additional Details" />
         <div className={defaultStyle.sub_layout}>
           <DefaultTitle />
           <div className={defaultStyle.timeline_card}>
             <TimelineBar
               timelineList={authTimelineList}
-              currentTimeline={authTimelineList[1].title}
+              currentTimeline={authTimelineList[2].title}
             />
           </div>
           <h1 className={defaultStyle.title}>Personal Details</h1>
           <p className={defaultStyle.paragraph}>
-            Enter Your data that you will use for entering.
+            Enter Your additional information.
           </p>
-          <div className={defaultStyle.form_card}>
+          <div>
             <PrimaryForm
               handleFormSubmit={handleFormSubmit}
               inputList={inputList}
               buttonList={buttonList}
-              isCheckBox={false}
+              isCheckBox={true}
+              checkboxPropertise={{
+                id: "check-box",
+                label: "Turn on 2 factor authentication",
+                name: "check-box",
+              }}
             />
           </div>
           <div className={defaultStyle.bottom_text_card}>
@@ -119,4 +104,4 @@ const PersonalDetails = (): React.ReactElement => {
   );
 };
 
-export default PersonalDetails;
+export default AdditionalInfo;
