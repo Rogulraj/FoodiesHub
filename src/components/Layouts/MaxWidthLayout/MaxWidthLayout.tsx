@@ -6,6 +6,8 @@ import defaultStyle from "./MaxWidthLayout.module.css";
 //types
 interface MaxWidthLayoutPropsType {
   children: React.ReactElement;
+
+  //default value = 1200px
   maxWidth?: CSSProperties["maxWidth"];
 }
 

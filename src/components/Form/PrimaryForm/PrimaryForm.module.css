@@ -1,0 +1,84 @@
+.email_label {
+  font-family: var(--ff_Nunito);
+  color: var(--black);
+  font-size: 14px;
+  font-weight: 600;
+  /* margin-bottom: px; */
+}
+
+.email_input {
+  font-family: var(--ff_Nunito);
+  color: var(--black);
+  font-size: 14px;
+  height: 40px;
+  width: 100%;
+  border-radius: 7px;
+  border-style: solid;
+  border-color: var(--primary_border);
+  border-width: 1px;
+  margin-bottom: 20px;
+  padding: 15px;
+  outline: none;
+  font-family: var(--ff_Nunito);
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.password_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0px;
+  height: 40px;
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: var(--primary_border);
+  padding-right: 15px;
+}
+
+.password_input {
+  height: 35px;
+  width: 100%;
+  border-style: none;
+  padding: 15px;
+  outline: none;
+  font-family: var(--ff_Nunito);
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.keep_login_checkbox_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.keep_login_checkbox {
+  /* -webkit-appearance: none; */
+  /* appearance: none; */
+  height: 17px;
+  width: 17px;
+}
+
+.keep_login_checkbox_label {
+  font-family: var(--ff_Nunito);
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 50px;
+}

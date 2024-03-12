@@ -1,0 +1,44 @@
+.main_layout {
+  list-style-type: none;
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  gap: 5px;
+  width: 100%;
+}
+
+.item_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dot_design_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.dot_icon {
+  color: var(--primary_border);
+}
+
+.bar_design {
+  height: 2px;
+  width: 100%;
+  border-radius: 5px;
+  background-color: var(--primary_border);
+}
+
+.title {
+  padding-left: 8px;
+  color: var(--light_black_200);
+  font-size: 13px;
+  font-family: var(--ff_Nunito);
+  font-weight: 700;
+  margin-top: 5px;
+  text-align: left;
+}

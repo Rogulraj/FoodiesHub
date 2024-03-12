@@ -1,0 +1,20 @@
+.common_style {
+  height: 45px;
+  width: 100%;
+  border-style: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--ff_Nunito);
+  cursor: pointer;
+}
+
+.primary_style {
+  background-color: var(--primary_accent);
+  color: var(--white);
+}
+
+.secondary_style {
+  background-color: var(--primary_card_bg);
+  color: var(--black);
+}

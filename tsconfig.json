@@ -25,7 +25,8 @@
       "@components/*": ["./src/components/*"],
       "@providers/*": ["./src/providers/*"],
       "@routes/*": ["./src/routes/*"],
-      "@pages/*": ["./src/pages/*"]
+      "@pages/*": ["./src/pages/*"],
+      "@constants/*": ["./src/constants/*"]
     }
   },
   "include": ["src"],
