@@ -10,6 +10,7 @@ import ForgotPassword from "@pages/ForgotPassword/ForgotPassword";
 import Signup from "@pages/Signup/Signup";
 import PersonalDetails from "@pages/PersonalDetails/PersonalDetails";
 import AdditionalInfo from "@pages/AdditionalInfo/AdditionalInfo";
+import Confirmation from "@pages/Confirmation/Confirmation";
 
 const authRoutes: routePropsType[] = [
   {
@@ -31,6 +32,10 @@ const authRoutes: routePropsType[] = [
   {
     path: "additional-info",
     element: <AdditionalInfo />,
+  },
+  {
+    path: "confirmation",
+    element: <Confirmation />,
   },
   {
     path: "*",

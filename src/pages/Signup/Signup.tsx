@@ -62,7 +62,9 @@ const Signup = (): React.ReactElement => {
           </div>
           <div className={defaultStyle.account_type_card}>
             <div
-              className={defaultStyle.account_card}
+              className={`${defaultStyle.account_card} ${
+                accountType === "personal" && defaultStyle.account_card_active
+              }`}
               onClick={() => setAccountType("personal")}>
               <div className={defaultStyle.account_icon_card}>
                 <RiShoppingBag3Line size={25} fill={colorTheme.white} />

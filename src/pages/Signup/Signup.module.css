@@ -74,6 +74,12 @@
   background-color: var(--primary_card_bg);
 }
 
+.account_card_active {
+  border-color: var(--primary_accent_border);
+  border-width: 2px;
+  background-color: var(--primary_card_bg);
+}
+
 .account_icon_card {
   height: 45px;
   width: 45px;

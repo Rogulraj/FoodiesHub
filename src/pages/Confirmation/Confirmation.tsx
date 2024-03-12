@@ -1,20 +1,19 @@
+import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
+import PrimaryForm, {
+  InputElementProperties,
+} from "@components/Form/PrimaryForm/PrimaryForm";
+import routePaths from "@constants/routePaths";
 import React, { FormEvent, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
-//css
-import defaultStyle from "./AdditionalInfo.module.css";
+import defaultStyle from "./Confirmation.module.css";
+import authTimelineList from "@constants/authTimeline";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
 import TimelineBar from "@components/Elements/TimelineBar/TimelineBar";
-import authTimelineList from "@constants/authTimeline";
-import PrimaryForm, {
-  InputElementProperties,
-} from "@components/Form/PrimaryForm/PrimaryForm";
-import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
-import { useNavigate } from "react-router-dom";
-import routePaths from "@constants/routePaths";
 
-const AdditionalInfo = (): React.ReactElement => {
+const Confirmation = (): React.ReactElement => {
   const numberRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
@@ -24,10 +23,10 @@ const AdditionalInfo = (): React.ReactElement => {
       {
         id: "number",
         variant: "number",
-        label: "Phone number",
+        label: "Confirmation code",
         type: "number",
         name: "number",
-        placeholder: "(217) 555-0113",
+        placeholder: "xxx - xxx - xxx",
         ref: numberRef,
       },
     ],
@@ -37,10 +36,10 @@ const AdditionalInfo = (): React.ReactElement => {
   const buttonList = useMemo<CustomButtonPropsType[]>(
     () => [
       {
-        title: "continue",
+        title: "Complete",
         type: "submit",
         variant: "primary",
-        onClick: handleContinueButton,
+        onClick: handleCompleteButton,
       },
       {
         title: "Back",
@@ -52,18 +51,17 @@ const AdditionalInfo = (): React.ReactElement => {
     []
   );
 
-  function handleContinueButton() {
+  function handleCompleteButton() {
     navigate(routePaths.confirmation);
   }
 
   function handleBackButton() {
-    navigate(routePaths.personalDetails);
+    navigate(routePaths.additionalInfo);
   }
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
   }
-
   return (
     <MaxWidthLayout>
       <div className={defaultStyle.main_layout}>
@@ -73,12 +71,12 @@ const AdditionalInfo = (): React.ReactElement => {
           <div className={defaultStyle.timeline_card}>
             <TimelineBar
               timelineList={authTimelineList}
-              currentTimeline={authTimelineList[2].title}
+              currentTimeline={authTimelineList[3].title}
             />
           </div>
-          <h1 className={defaultStyle.title}>Additional Info</h1>
+          <h1 className={defaultStyle.title}>Confirmation</h1>
           <p className={defaultStyle.paragraph}>
-            Enter Your additional information.
+            Enter Your security code that we sent to your phone.
           </p>
           <div>
             <PrimaryForm
@@ -88,7 +86,7 @@ const AdditionalInfo = (): React.ReactElement => {
               isCheckBox={true}
               checkboxPropertise={{
                 id: "check-box",
-                label: "Turn on 2 factor authentication",
+                label: "Remember this device",
                 name: "check-box",
               }}
             />
@@ -104,4 +102,4 @@ const AdditionalInfo = (): React.ReactElement => {
   );
 };
 
-export default AdditionalInfo;
+export default Confirmation;

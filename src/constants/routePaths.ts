@@ -4,6 +4,7 @@ interface RoutePathsType {
   signup: string;
   personalDetails: string;
   additionalInfo: string;
+  confirmation: string;
 }
 
 const routePaths: RoutePathsType = {
@@ -12,6 +13,7 @@ const routePaths: RoutePathsType = {
   signup: "/auth/sign-up",
   personalDetails: "/auth/personal-details",
   additionalInfo: "/auth/additional-info",
+  confirmation: "/auth/confirmation",
 };
 
 export default routePaths;

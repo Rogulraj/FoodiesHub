@@ -1,0 +1,81 @@
+.main_layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+}
+@media screen and (min-width: 600px) {
+  .main_layout {
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    padding: 30px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main_layout {
+    padding: 40px;
+  }
+}
+
+.sub_layout {
+  width: 100%;
+  max-width: 500px;
+}
+
+.timeline_card {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-weight: 700;
+  font-size: 40px;
+}
+@media screen and (min-width: 600px) {
+  .title {
+    font-size: 50px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .title {
+    font-size: 55px;
+  }
+}
+
+.paragraph {
+  color: var(--light_black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.bottom_text_card {
+  height: fit-content;
+  width: 100%;
+  position: relative;
+  top: 80px;
+}
+@media screen and (min-width: 900px) {
+  .bottom_text_card {
+    top: 60px;
+  }
+}
+
+.bottom_text {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.bottom_text > span {
+  color: var(--primary_accent);
+  cursor: pointer;
+}
