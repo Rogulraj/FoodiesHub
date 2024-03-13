@@ -9,6 +9,8 @@ interface ColorThemeType {
   primary_border: string;
   secondary_border: string;
   primary_accent_border: string;
+  third_accent: string;
+  third_card_bg: string;
 }
 
 const colorTheme: ColorThemeType = {
@@ -20,6 +22,8 @@ const colorTheme: ColorThemeType = {
   primary_border: "#cbcbcb",
   secondary_border: "#dddddd",
   primary_accent_border: "#404aff",
+  third_accent: "#ffa500",
+  third_card_bg: "#ff6f0014",
 };
 
 export default colorTheme;

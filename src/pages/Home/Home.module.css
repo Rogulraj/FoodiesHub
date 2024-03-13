@@ -1,0 +1,61 @@
+.main_layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .main_layout {
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    padding: 30px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main_layout {
+    padding: 40px;
+  }
+}
+
+.dual_heading {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dual_main_text {
+  font-family: var(--ff_Nunito);
+  color: var(--black);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.dual_sub_text {
+  font-family: var(--ff_Nunito);
+  color: var(--primary_accent);
+  font-size: 15px;
+  font-weight: 700;
+  border-style: solid;
+  border-radius: 50px;
+  border-width: 1px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.deal_poster_card {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+@media screen and (min-width: 900px) {
+  .deal_poster_card {
+    flex-direction: row;
+  }
+}

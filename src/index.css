@@ -3,11 +3,13 @@
 
   --primary_accent: #404aff;
   --secondary_accent: #5e66ff;
+  --third_accent: #ffa500;
 
   --primary_accent_border: #404aff;
 
   --primary_card_bg: #5e66ff21;
   --secondary_card_bg: #ebeaea;
+  --third_card_bg: #ff6f0014;
 
   --primary_border: #cbcbcb;
   --secondary_border: #dddddd;
