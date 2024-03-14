@@ -1,0 +1,39 @@
+.main_layout {
+  height: 90px;
+  width: 110px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--primary_border);
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+@media screen and (min-width: 600px) {
+  .main_layout {
+    height: 100px;
+    width: 120px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    height: 110px;
+    width: 140px;
+  }
+}
+
+.title {
+  margin: 0px;
+  color: var(--black);
+  font-size: 15px;
+  font-family: var(--ff_Nunito);
+  font-weight: 700;
+}
+
+.icon_style {
+  height: 30px;
+  width: 30px;
+}

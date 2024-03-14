@@ -1,3 +1,4 @@
+//packages
 import React, { CSSProperties } from "react";
 
 //css
@@ -12,6 +13,7 @@ export interface CustomButtonPropsType {
   style?: CSSProperties;
 }
 
+//React Element
 const CustomButton = ({
   variant,
   onClick,

@@ -1,5 +1,7 @@
+//packages
 import { CSSProperties } from "react";
 
+//types
 interface ColorThemeType {
   black: string;
   white: string;
@@ -13,6 +15,7 @@ interface ColorThemeType {
   third_card_bg: string;
 }
 
+//theme
 const colorTheme: ColorThemeType = {
   black: "#000000",
   white: "#ffffff",

@@ -1,20 +1,23 @@
+//packages
 import React, { FormEvent, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 //components
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
-
 import defaultStyle from "./PersonalDetails.module.css";
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
 import TimelineBar from "@components/Elements/TimelineBar/TimelineBar";
-import authTimelineList from "@constants/authTimeline";
 import PrimaryForm, {
   InputElementProperties,
 } from "@components/Form/PrimaryForm/PrimaryForm";
 import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
-import { useNavigate } from "react-router-dom";
+
+//constants
+import authTimelineList from "@constants/authTimeline";
 import routePaths from "@constants/routePaths";
 
+//React Elements
 const PersonalDetails = (): React.ReactElement => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);

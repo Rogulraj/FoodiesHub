@@ -1,3 +1,4 @@
+//types
 interface RoutePathsType {
   login: string;
   forgotPassword: string;
@@ -7,6 +8,7 @@ interface RoutePathsType {
   confirmation: string;
 }
 
+//route paths
 const routePaths: RoutePathsType = {
   login: "/auth/login",
   forgotPassword: "/auth/forgot-password",

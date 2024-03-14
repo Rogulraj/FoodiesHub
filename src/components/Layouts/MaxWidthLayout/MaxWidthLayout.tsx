@@ -1,3 +1,4 @@
+//packages
 import React, { CSSProperties } from "react";
 
 //css
@@ -11,6 +12,7 @@ interface MaxWidthLayoutPropsType {
   maxWidth?: CSSProperties["maxWidth"];
 }
 
+//React Element
 const MaxWidthLayout = ({ children, maxWidth }: MaxWidthLayoutPropsType) => {
   return (
     <div className={defaultStyle.main_layout}>

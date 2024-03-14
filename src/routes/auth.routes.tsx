@@ -1,3 +1,4 @@
+//packages
 import React from "react";
 import { Navigate } from "react-router-dom";
 
@@ -12,6 +13,7 @@ import PersonalDetails from "@pages/PersonalDetails/PersonalDetails";
 import AdditionalInfo from "@pages/AdditionalInfo/AdditionalInfo";
 import Confirmation from "@pages/Confirmation/Confirmation";
 
+//routes
 const authRoutes: routePropsType[] = [
   {
     path: "login",

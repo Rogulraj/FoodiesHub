@@ -1,19 +1,25 @@
+//packages
 import React, { FormEvent, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 //css
 import defaultStyle from "./AdditionalInfo.module.css";
+
+//components
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
 import TimelineBar from "@components/Elements/TimelineBar/TimelineBar";
-import authTimelineList from "@constants/authTimeline";
 import PrimaryForm, {
   InputElementProperties,
 } from "@components/Form/PrimaryForm/PrimaryForm";
 import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
-import { useNavigate } from "react-router-dom";
-import routePaths from "@constants/routePaths";
 
+//constants
+import routePaths from "@constants/routePaths";
+import authTimelineList from "@constants/authTimeline";
+
+//React Element
 const AdditionalInfo = (): React.ReactElement => {
   const numberRef = useRef<HTMLInputElement>(null);
 

@@ -1,9 +1,9 @@
 import React, { CSSProperties } from "react";
 
 //css
-import defaultStyle from "./DealPoster.module.css";
+import defaultStyle from "./DealPosterCard.module.css";
 
-interface DealPosterPropsType {
+interface DealPosterCardPropsType {
   mainStyle?: CSSProperties;
   title: string;
   subTitle: string;
@@ -12,14 +12,14 @@ interface DealPosterPropsType {
   imageUrl: string;
 }
 
-const DealPoster = ({
+const DealPosterCard = ({
   mainStyle,
   imageUrl,
   offerText,
   subTitle,
   title,
   offerTextStyle,
-}: DealPosterPropsType): React.ReactElement => {
+}: DealPosterCardPropsType): React.ReactElement => {
   return (
     <div className={defaultStyle.main_layout} style={mainStyle}>
       <div className={defaultStyle.dual_heading_card}>
@@ -36,4 +36,4 @@ const DealPoster = ({
   );
 };
 
-export default DealPoster;
+export default DealPosterCard;

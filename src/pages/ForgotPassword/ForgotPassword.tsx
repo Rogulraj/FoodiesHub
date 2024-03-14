@@ -1,22 +1,26 @@
+//packages
 import React, { useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 //components
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
-
-//css
-import defaultStyle from "./ForgotPassword.module.css";
-import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
-
-//icons
-import { IoChevronBackOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import routePaths from "@constants/routePaths";
 import PrimaryForm, {
   InputElementProperties,
 } from "@components/Form/PrimaryForm/PrimaryForm";
 import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
 
+//css
+import defaultStyle from "./ForgotPassword.module.css";
+import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
+
+//constant
+import routePaths from "@constants/routePaths";
+
+//icons
+import { IoChevronBackOutline } from "react-icons/io5";
+
+//React Element
 const ForgotPassword = (): React.ReactElement => {
   const emailRef = useRef<HTMLInputElement>(null);
 

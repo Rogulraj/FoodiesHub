@@ -1,18 +1,25 @@
+//package
+import React, { FormEvent, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
+//css
+import defaultStyle from "./Confirmation.module.css";
+
+//constants
+import authTimelineList from "@constants/authTimeline";
+import routePaths from "@constants/routePaths";
+
+//components
 import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
 import PrimaryForm, {
   InputElementProperties,
 } from "@components/Form/PrimaryForm/PrimaryForm";
-import routePaths from "@constants/routePaths";
-import React, { FormEvent, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-
-import defaultStyle from "./Confirmation.module.css";
-import authTimelineList from "@constants/authTimeline";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
 import TimelineBar from "@components/Elements/TimelineBar/TimelineBar";
 
+//React Element
 const Confirmation = (): React.ReactElement => {
   const numberRef = useRef<HTMLInputElement>(null);
 

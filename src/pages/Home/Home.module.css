@@ -59,3 +59,49 @@
     flex-direction: row;
   }
 }
+
+.category_card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.restaurant_layout {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.restaurant_card {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+@media screen and (min-width: 900px) {
+  .restaurant_card {
+    gap: 30px;
+  }
+}
+@media screen and (min-width: 1170px) {
+  .restaurant_card {
+    justify-content: flex-start;
+  }
+}
+
+.inner {
+  height: 100px;
+  width: 100px;
+  border-style: dotted;
+}

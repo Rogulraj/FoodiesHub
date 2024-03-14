@@ -1,7 +1,10 @@
+//packages
 import React from "react";
 
+//css
 import defaultStyle from "./DefaultTitle.module.css";
 
+//React Element
 const DefaultTitle = (): React.ReactElement => {
   return (
     <div className={defaultStyle.main_layout}>

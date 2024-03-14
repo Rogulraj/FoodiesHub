@@ -1,4 +1,6 @@
+//packages
 import React, { useState } from "react";
+
 //css
 import defaultStyle from "./PrimaryHeader.module.css";
 
@@ -17,6 +19,7 @@ import { NavLink } from "react-router-dom";
 
 const navList = ["Restaurant", "Deals", "My orders"];
 
+//React Element
 const PrimaryHeader = (): React.ReactElement => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
 

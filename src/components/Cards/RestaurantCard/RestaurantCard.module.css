@@ -1,0 +1,123 @@
+.main_layout {
+  height: auto;
+  width: 330px;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: 1px;
+  border-color: var(--primary_border);
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 600px) {
+  .main_layout {
+    height: auto;
+    width: 350px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    height: auto;
+    width: 350px;
+  }
+}
+
+.image_card {
+  height: 70%;
+  width: 100%;
+}
+
+.image_style {
+  height: 100%;
+  width: 100%;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+.details_card {
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+}
+
+.title_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title_text {
+  margin: 0px;
+  color: var(--black);
+  font-size: 18px;
+  font-weight: 600;
+  font-family: var(--ff_Nunito);
+}
+
+.duration_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.duration_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.duration_text {
+  color: var(--light_white);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--ff_Nunito);
+  margin: 0;
+}
+
+.min_order_text {
+  color: var(--light_white);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--ff_Nunito);
+  margin: 0;
+}
+
+.tag_card {
+  list-style-type: none;
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag_icon {
+  height: 15px;
+  width: 15px;
+}
+
+.tag_item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  height: auto;
+  width: auto;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--secondary_card_bg);
+  border-radius: 20px;
+}
+
+.tag_text {
+  margin: 0px;
+  color: var(--light_black_200);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--ff_Nunito);
+}

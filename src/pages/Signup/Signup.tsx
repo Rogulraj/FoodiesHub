@@ -1,3 +1,4 @@
+//packages
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +25,7 @@ export interface SignupAccountType {
   accountType: "personal" | "restaurant" | null;
 }
 
+//React Element
 const Signup = (): React.ReactElement => {
   const [accountType, setAccountType] =
     useState<SignupAccountType["accountType"]>(null);

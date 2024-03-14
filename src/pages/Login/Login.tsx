@@ -1,3 +1,4 @@
+//packages
 import React, { FormEventHandler, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,7 @@ import routePaths from "@constants/routePaths";
 import { InputElementProperties } from "@components/Form/PrimaryForm/PrimaryForm";
 import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
 
+//React Element
 const Login = (): React.ReactElement => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
