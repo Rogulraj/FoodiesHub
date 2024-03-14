@@ -6,6 +6,8 @@ interface RoutePathsType {
   personalDetails: string;
   additionalInfo: string;
   confirmation: string;
+  personalHome: string;
+  restaurantHome: string;
 }
 
 //route paths
@@ -16,6 +18,8 @@ const routePaths: RoutePathsType = {
   personalDetails: "/auth/personal-details",
   additionalInfo: "/auth/additional-info",
   confirmation: "/auth/confirmation",
+  personalHome: "/personal/home",
+  restaurantHome: "/restaurant/home",
 };
 
 export default routePaths;

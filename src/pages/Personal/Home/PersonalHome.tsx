@@ -2,7 +2,7 @@
 import React from "react";
 
 //css
-import defaultStyle from "./Home.module.css";
+import defaultStyle from "./PersonalHome.module.css";
 
 //components
 import PrimaryHeader from "@components/Headers/PrimaryHeader/PrimaryHeader";
@@ -56,7 +56,7 @@ const list: RestaurantCardPropsType[] = [
 ];
 
 //React Element
-const Home = (): React.ReactElement => {
+const PersonalHome = (): React.ReactElement => {
   return (
     <>
       <CustomHelmet title="Home" />
@@ -109,4 +109,4 @@ const Home = (): React.ReactElement => {
   );
 };
 
-export default Home;
+export default PersonalHome;

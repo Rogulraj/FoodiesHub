@@ -2,7 +2,7 @@
 import { Navigate } from "react-router-dom";
 
 //pages
-import Home from "@pages/Home/Home";
+import RestaurantHome from "@pages/Restaurant/Home/RestaurantHome";
 
 //constant
 import routePaths from "@constants/routePaths";
@@ -11,10 +11,10 @@ import routePaths from "@constants/routePaths";
 import { routePropsType } from "./types/routeProps.type";
 
 //routes
-const protectedRoutes: routePropsType[] = [
+const restaurantRoutes: routePropsType[] = [
   {
     path: "home",
-    element: <Home />,
+    element: <RestaurantHome />,
   },
   {
     path: "*",
@@ -22,4 +22,4 @@ const protectedRoutes: routePropsType[] = [
   },
 ];
 
-export default protectedRoutes;
+export default restaurantRoutes;

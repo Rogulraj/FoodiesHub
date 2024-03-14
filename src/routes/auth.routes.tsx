@@ -6,12 +6,12 @@ import { Navigate } from "react-router-dom";
 import { routePropsType } from "./types/routeProps.type";
 
 //pages
-import Login from "@pages/Login/Login";
-import ForgotPassword from "@pages/ForgotPassword/ForgotPassword";
-import Signup from "@pages/Signup/Signup";
-import PersonalDetails from "@pages/PersonalDetails/PersonalDetails";
-import AdditionalInfo from "@pages/AdditionalInfo/AdditionalInfo";
-import Confirmation from "@pages/Confirmation/Confirmation";
+import Login from "@pages/Auth/Login/Login";
+import ForgotPassword from "@pages/Auth/ForgotPassword/ForgotPassword";
+import Signup from "@pages/Auth/Signup/Signup";
+import PersonalDetails from "@pages/Auth/PersonalDetails/PersonalDetails";
+import AdditionalInfo from "@pages/Auth/AdditionalInfo/AdditionalInfo";
+import Confirmation from "@pages/Auth/Confirmation/Confirmation";
 
 //routes
 const authRoutes: routePropsType[] = [

@@ -8,7 +8,8 @@ import {
 
 //Routes
 import authRoutes from "./auth.routes";
-import protectedRoutes from "./protected.routes";
+import protectedRoutes from "./personal.routes";
+import restaurantRoutes from "./restaurant.routes";
 
 const AppRoute = () => {
   const router = createBrowserRouter([
@@ -21,8 +22,12 @@ const AppRoute = () => {
       children: [...authRoutes],
     },
     {
-      path: "/app/*",
+      path: "/personal/*",
       children: [...protectedRoutes],
+    },
+    {
+      path: "/restaurant/*",
+      children: [...restaurantRoutes],
     },
     {
       path: "*",
