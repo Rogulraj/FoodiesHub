@@ -189,61 +189,6 @@ const PrimaryForm = ({
           ))}
         </div>
       ) : null}
-      {/* <label htmlFor="email" className={defaultStyle.email_label}>
-        Email
-      </label>
-      <br />
-      <input
-        type="email"
-        name="email"
-        id="email"
-        placeholder="email"
-        className={defaultStyle.email_input}
-        // ref={emailRef}
-      />
-      <br />
-      <label htmlFor="password" className={defaultStyle.email_label}>
-        Password
-      </label>
-      <br />
-      <div className={defaultStyle.password_card}>
-        <input
-          //   type={showPassword ? "text" : "password"}
-          name="password"
-          id="password"
-          placeholder="password"
-          className={defaultStyle.password_input}
-          //   ref={passwordRef}
-        />
-        {showPassword ? (
-          <IoEyeOffOutline
-            size={20}
-            onClick={() => setShowPassword(false)}
-            className={defaultStyle.eye_icon}
-          />
-        ) : (
-          <IoEyeOutline
-            size={20}
-            onClick={() => setShowPassword(true)}
-            className={defaultStyle.eye_icon}
-          />
-        )}
-      </div>
-
-
-
-      <div className={defaultStyle.form_button_card}>
-        <button type="submit" className={defaultStyle.login_button}>
-          Login
-        </button>
-
-        <button
-          type="button"
-          className={defaultStyle.forgot_button}
-          onClick={handleForgotPassword}>
-          Forgot password
-        </button>
-      </div> */}
     </form>
   );
 };

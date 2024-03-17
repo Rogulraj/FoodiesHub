@@ -1,5 +1,5 @@
 //packages
-import React, { FormEvent, useMemo, useRef } from "react";
+import React, { FormEvent, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //components
@@ -16,13 +16,23 @@ import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomB
 //constants
 import authTimelineList from "@constants/authTimeline";
 import routePaths from "@constants/routePaths";
+import { useAppDispatch, useAppSelector } from "../../../redux/store/store";
+import { signupActions } from "../../../redux/features/signup.slice";
+import { usePostSignupMutation } from "../../../services/signup.service";
 
 //React Elements
 const PersonalDetails = (): React.ReactElement => {
+  const [createUser] = usePostSignupMutation();
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const [minLength, setMinLength] = useState<boolean>(false);
+
   const navigate = useNavigate();
+
+  const { email, password } = useAppSelector((state) => state.signup);
+  const dispatch = useAppDispatch();
 
   const inputList = useMemo<InputElementProperties[]>(
     () => [
@@ -44,15 +54,6 @@ const PersonalDetails = (): React.ReactElement => {
         placeholder: "min. 8 characters",
         ref: passwordRef,
       },
-      {
-        variant: "password",
-        type: "password",
-        id: "password",
-        name: "password",
-        label: "Confirm Password",
-        placeholder: "min. 8 characters",
-        ref: passwordRef,
-      },
     ],
     []
   );
@@ -60,10 +61,9 @@ const PersonalDetails = (): React.ReactElement => {
   const buttonList = useMemo<CustomButtonPropsType[]>(
     () => [
       {
-        title: "continue",
+        title: "Signup",
         type: "submit",
         variant: "primary",
-        onClick: handleContinueButton,
       },
       {
         title: "Back",
@@ -83,8 +83,32 @@ const PersonalDetails = (): React.ReactElement => {
     navigate(routePaths.signup);
   }
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleFormSubmit(
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> {
     event.preventDefault();
+
+    const emailRefVal = emailRef.current?.value;
+    const passwordRefVal = passwordRef.current?.value;
+
+    if (
+      emailRefVal !== null &&
+      passwordRefVal !== null &&
+      passwordRefVal?.length !== undefined &&
+      passwordRefVal.length >= 8
+    ) {
+      setMinLength(true);
+      dispatch(
+        signupActions.handleEmailPassword({
+          email: emailRefVal,
+          password: passwordRefVal,
+        })
+      );
+      const res = await createUser({ email, password });
+      console.log("res = ", res);
+    } else {
+      setMinLength(false);
+    }
   }
 
   return (
@@ -105,6 +129,7 @@ const PersonalDetails = (): React.ReactElement => {
           </p>
           <div className={defaultStyle.form_card}>
             <PrimaryForm
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               handleFormSubmit={handleFormSubmit}
               inputList={inputList}
               buttonList={buttonList}

@@ -19,18 +19,29 @@ import CustomButton from "@components/Elements/CustomButton/CustomButton";
 //constants
 import authTimelineList from "@constants/authTimeline";
 import routePaths from "@constants/routePaths";
+import { useAppDispatch, useAppSelector } from "../../../redux/store/store";
+
+//redux
+import { signupActions } from "../../../redux/features/signup.slice";
 
 //types
 export interface SignupAccountType {
-  accountType: "personal" | "restaurant" | null;
+  accountType: "personal" | "restaurant";
 }
 
 //React Element
 const Signup = (): React.ReactElement => {
-  const [accountType, setAccountType] =
-    useState<SignupAccountType["accountType"]>(null);
+  // const [accountType, setAccountType] =
+  //   useState<SignupAccountType["accountType"] | null>(null);
 
   const navigate = useNavigate();
+
+  const { accountType } = useAppSelector((state) => state.signup);
+  const dispatch = useAppDispatch();
+
+  function handleAccountTypeDispatch(value: SignupAccountType["accountType"]) {
+    dispatch(signupActions.handleAccountType(value));
+  }
 
   function handleContinue() {
     switch (accountType) {
@@ -67,7 +78,7 @@ const Signup = (): React.ReactElement => {
               className={`${defaultStyle.account_card} ${
                 accountType === "personal" && defaultStyle.account_card_active
               }`}
-              onClick={() => setAccountType("personal")}>
+              onClick={() => handleAccountTypeDispatch("personal")}>
               <div className={defaultStyle.account_icon_card}>
                 <RiShoppingBag3Line size={25} fill={colorTheme.white} />
               </div>

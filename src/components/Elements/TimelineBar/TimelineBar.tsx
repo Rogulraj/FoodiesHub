@@ -25,7 +25,6 @@ const TimelineBar = ({
     (item) => item.title === currentTimeline
   );
 
-  console.log(timelineList.length, currentTimeline, timelineIndex);
   return (
     <ul className={defaultStyle.main_layout}>
       {timelineList.map((item, _index) => (
