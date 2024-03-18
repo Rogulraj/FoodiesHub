@@ -1,16 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import signupReducer from "../features/signup.slice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { signupApiSlice } from "../../services/signup.service";
+import { authApiSlice } from "../../services/auth.service";
 
 const store = configureStore({
   reducer: {
     signup: signupReducer,
-    [signupApiSlice.reducerPath]: signupApiSlice.reducer,
+    [authApiSlice.reducerPath]: authApiSlice.reducer,
   },
 
   middleware(getDefaultMiddleware) {
-    return getDefaultMiddleware().concat(signupApiSlice.middleware);
+    return getDefaultMiddleware().concat(authApiSlice.middleware);
   },
 });
 

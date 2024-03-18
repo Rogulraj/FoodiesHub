@@ -47,12 +47,13 @@ export interface CheckBoxProperties {
 }
 
 export type PrimaryFormPropsType = {
-  handleFormSubmit: FormEventHandler<HTMLFormElement>;
+  handleFormSubmit: (event: FormEventHandler<HTMLFormElement>) => Promise<void>;
   inputList: InputElementProperties[];
   isCheckBox: boolean;
   checkboxPropertise?: CheckBoxProperties;
   buttonList?: CustomButtonPropsType[];
   buttonListStyle?: CSSProperties;
+  validateError?: string[];
 };
 
 //React Element
@@ -63,6 +64,7 @@ const PrimaryForm = ({
   checkboxPropertise,
   buttonList,
   buttonListStyle,
+  validateError,
 }: PrimaryFormPropsType): React.ReactElement => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -174,6 +176,11 @@ const PrimaryForm = ({
             {checkboxPropertise?.label}
           </label>
         </div>
+      )}
+      {validateError !== undefined && validateError?.length > 0 ? (
+        <p className={defaultStyle.error_message}>*{validateError[0]}</p>
+      ) : (
+        <p className={defaultStyle.error_message}></p>
       )}
       {buttonList?.length !== undefined && buttonList.length > 0 ? (
         <div className={defaultStyle.button_card} style={buttonListStyle}>

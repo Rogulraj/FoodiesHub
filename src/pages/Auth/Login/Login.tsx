@@ -1,6 +1,8 @@
 //packages
-import React, { FormEventHandler, useMemo, useRef } from "react";
+import React, { FormEventHandler, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import Cookies from "js-cookie";
 
 //css
 import defaultStyle from "./Login.module.css";
@@ -17,11 +19,22 @@ import routePaths from "@constants/routePaths";
 //types
 import { InputElementProperties } from "@components/Form/PrimaryForm/PrimaryForm";
 import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
+import { RefValuesType } from "@interfaces/form.interface";
+
+//Redux
+import { usePostLoginMutation } from "../../../services/auth.service";
+import { signupActions } from "../../../redux/features/signup.slice";
+import { useAppDispatch } from "../../../redux/store/store";
 
 //React Element
 const Login = (): React.ReactElement => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [validateError, setValidateError] = useState<string[]>([]);
+  const dispatch = useAppDispatch();
+
+  const [userLogin] = usePostLoginMutation();
 
   const inputList = useMemo<InputElementProperties[]>(
     () => [
@@ -66,13 +79,96 @@ const Login = (): React.ReactElement => {
 
   const navigate = useNavigate();
 
-  const handleFormSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required("Email is Required.")
+      .email("Invalid Email Format."),
+    password: Yup.string()
+      .required("Password is Required.")
+      .min(8, "Password must be at least 8 characters.")
+      .matches(
+        /[!@#$%^&*(),.?":{}|<>=]/,
+        "Password must contain at least one symbol"
+      ),
+  });
+
+  async function handleFormValidation(): Promise<boolean> {
+    try {
+      const refValues: RefValuesType = {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      };
+
+      await validationSchema.validate(
+        { ...refValues },
+        {
+          abortEarly: false,
+        }
+      );
+
+      dispatch(
+        signupActions.handleEmailPassword({
+          email: refValues.email,
+          password: refValues.password,
+        })
+      );
+      setValidateError([]);
+      return true;
+    } catch (error) {
+      const newErrors: string[] = [];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      await error?.inner?.map((err: { path: string; message: string }) => {
+        newErrors.push(err.message);
+      });
+
+      setValidateError(newErrors);
+
+      return false;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (
+    event
+  ): Promise<void> => {
     event.preventDefault();
 
-    const email = emailRef?.current?.value;
-    const password = passwordRef?.current?.value;
+    try {
+      const validate = await handleFormValidation();
 
-    // console.log("email ->", email, "password ->", password);
+      const refValues: RefValuesType = {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      };
+      if (
+        validate &&
+        refValues.email !== undefined &&
+        refValues.password !== undefined
+      ) {
+        const response = await userLogin({
+          email: refValues.email,
+          password: refValues.password,
+        });
+
+        const responseData = response?.data;
+
+        if (responseData) {
+          const statusCode = responseData.statusCode;
+
+          if (statusCode === 200) {
+            const tokenData = responseData?.data?.tokenData;
+
+            Cookies.set("session-token", tokenData.token, {
+              expires: tokenData.expiresIn,
+            });
+
+            navigate(routePaths.personalHome);
+          }
+        }
+      }
+    } catch (err) {
+      console.log("error => ", err);
+    }
   };
 
   function handleForgotPassword() {

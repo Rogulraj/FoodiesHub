@@ -1,6 +1,13 @@
 //packages
-import React, { FormEvent, useMemo, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  FormEventHandler,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 //components
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
@@ -16,9 +23,12 @@ import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomB
 //constants
 import authTimelineList from "@constants/authTimeline";
 import routePaths from "@constants/routePaths";
+
+//Redux
 import { useAppDispatch, useAppSelector } from "../../../redux/store/store";
 import { signupActions } from "../../../redux/features/signup.slice";
-import { usePostSignupMutation } from "../../../services/signup.service";
+import { usePostSignupMutation } from "../../../services/auth.service";
+import { RefValuesType } from "@interfaces/form.interface";
 
 //React Elements
 const PersonalDetails = (): React.ReactElement => {
@@ -26,12 +36,14 @@ const PersonalDetails = (): React.ReactElement => {
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
-  const [minLength, setMinLength] = useState<boolean>(false);
-
+  const [validateError, setValidateError] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  const { email, password } = useAppSelector((state) => state.signup);
+  const { email, password, accountType } = useAppSelector(
+    (state) => state.signup
+  );
   const dispatch = useAppDispatch();
 
   const inputList = useMemo<InputElementProperties[]>(
@@ -54,6 +66,15 @@ const PersonalDetails = (): React.ReactElement => {
         placeholder: "min. 8 characters",
         ref: passwordRef,
       },
+      {
+        variant: "password",
+        type: "password",
+        id: "confirm-password",
+        name: "confirm-password",
+        label: "Confirm Password",
+        placeholder: "min. 8 characters",
+        ref: confirmPasswordRef,
+      },
     ],
     []
   );
@@ -75,41 +96,103 @@ const PersonalDetails = (): React.ReactElement => {
     []
   );
 
-  function handleContinueButton() {
-    navigate(routePaths.additionalInfo);
-  }
-
   function handleBackButton() {
     navigate(routePaths.signup);
   }
 
-  async function handleFormSubmit(
-    event: FormEvent<HTMLFormElement>
-  ): Promise<void> {
-    event.preventDefault();
+  const validationSchema = Yup.object({
+    accountType: Yup.string()
+      .required("go back & select the account type.")
+      .min(3),
+    email: Yup.string()
+      .required("Email is Required.")
+      .email("Invalid Email Format."),
+    password: Yup.string()
+      .required("Password is Required.")
+      .min(8, "Password must be at least 8 characters.")
+      .matches(
+        /[!@#$%^&*(),.?":{}|<>=]/,
+        "Password must contain at least one symbol"
+      ),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], "Passwords must match")
+      .required("Confirm password is required."),
+  });
 
-    const emailRefVal = emailRef.current?.value;
-    const passwordRefVal = passwordRef.current?.value;
+  async function handleFormValidation(): Promise<boolean> {
+    try {
+      const refValues: RefValuesType = {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+        confirmPassword: confirmPasswordRef.current?.value,
+      };
 
-    if (
-      emailRefVal !== null &&
-      passwordRefVal !== null &&
-      passwordRefVal?.length !== undefined &&
-      passwordRefVal.length >= 8
-    ) {
-      setMinLength(true);
+      await validationSchema.validate(
+        { ...refValues, accountType },
+        {
+          abortEarly: false,
+        }
+      );
+
       dispatch(
         signupActions.handleEmailPassword({
-          email: emailRefVal,
-          password: passwordRefVal,
+          email: refValues.email,
+          password: refValues.password,
         })
       );
-      const res = await createUser({ email, password });
-      console.log("res = ", res);
-    } else {
-      setMinLength(false);
+      setValidateError([]);
+      return true;
+    } catch (error) {
+      const newErrors: string[] = [];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      await error?.inner?.map((err: { path: string; message: string }) => {
+        newErrors.push(err.message);
+      });
+
+      setValidateError(newErrors);
+
+      return false;
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (
+    event
+  ): Promise<void> => {
+    event.preventDefault();
+
+    try {
+      const isValidate = await handleFormValidation();
+
+      const refValues: RefValuesType = {
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+        confirmPassword: confirmPasswordRef.current?.value,
+      };
+
+      if (
+        isValidate &&
+        refValues.email !== undefined &&
+        refValues.password !== undefined
+      ) {
+        const response = await createUser({
+          email: refValues.email,
+          password: refValues.password,
+          accountType,
+        });
+
+        if (response?.data) {
+          const statusCode = response?.data?.statusCode;
+
+          if (statusCode === 201) {
+            navigate(routePaths.login);
+          }
+        }
+      }
+    } catch (error) {
+      console.log("error => ", error);
+    }
+  };
 
   return (
     <MaxWidthLayout>
@@ -129,11 +212,11 @@ const PersonalDetails = (): React.ReactElement => {
           </p>
           <div className={defaultStyle.form_card}>
             <PrimaryForm
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               handleFormSubmit={handleFormSubmit}
               inputList={inputList}
               buttonList={buttonList}
               isCheckBox={false}
+              validateError={validateError}
             />
           </div>
           <div className={defaultStyle.bottom_text_card}>
