@@ -1,0 +1,158 @@
+.main_layout {
+  min-height: 80vh;
+  min-width: 80vw;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.title_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.form_label_text {
+  color: var(--light_black);
+  font-family: var(--ff_Nunito);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0px;
+  margin-top: 15px;
+}
+
+.image_card {
+  height: auto;
+  width: 100%;
+  margin-top: 7px;
+}
+
+.select_image_card {
+  height: 80px;
+  width: 80px;
+  border-style: dashed;
+  border-color: var(--primary_accent);
+  border-radius: 10px;
+  border-width: 2px;
+}
+
+.image_file_label {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.image_file_input {
+  display: none;
+}
+
+.selected_image_style {
+  height: 100%;
+  width: 100%;
+}
+
+.input_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+/* @media screen and (min-width: 900px) {
+  .input_card {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+} */
+
+.name_input {
+  height: 45px;
+  width: auto;
+  padding: 15px;
+  border-radius: 10px;
+  border-color: var(--primary_border);
+  border-width: 1px;
+  color: var(--light_black);
+  font-family: var(--ff_Nunito);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 2px;
+  margin-bottom: 15px;
+}
+
+.description_input {
+  width: 100%;
+}
+
+.name_price_input_card {
+  display: flex;
+  flex-direction: column;
+}
+
+.name_price_input_card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media screen and (min-width: 900px) {
+  .name_price_input_card {
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.button_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.cancel_btn {
+  height: 40px;
+  width: 100px;
+  background-color: var(--white);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: var(--primary_border);
+  color: var(--light_white);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.submit_btn {
+  height: 40px;
+  width: auto;
+  padding: 10px;
+  background-color: var(--primary_accent);
+  border-style: none;
+  border-radius: 10px;
+  color: var(--white);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 700;
+}

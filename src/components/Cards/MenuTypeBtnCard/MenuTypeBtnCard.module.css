@@ -1,0 +1,22 @@
+.main_layout {
+  height: auto;
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--primary_border);
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.title {
+  color: var(--light_black);
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--ff_Nunito);
+  margin: 0;
+}

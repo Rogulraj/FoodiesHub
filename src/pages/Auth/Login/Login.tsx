@@ -92,13 +92,10 @@ const Login = (): React.ReactElement => {
       ),
   });
 
-  async function handleFormValidation(): Promise<boolean> {
+  async function handleFormValidation(
+    refValues: RefValuesType
+  ): Promise<boolean> {
     try {
-      const refValues: RefValuesType = {
-        email: emailRef.current?.value,
-        password: passwordRef.current?.value,
-      };
-
       await validationSchema.validate(
         { ...refValues },
         {
@@ -134,12 +131,12 @@ const Login = (): React.ReactElement => {
     event.preventDefault();
 
     try {
-      const validate = await handleFormValidation();
-
       const refValues: RefValuesType = {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       };
+      const validate = await handleFormValidation(refValues);
+
       if (
         validate &&
         refValues.email !== undefined &&

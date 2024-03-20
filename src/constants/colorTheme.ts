@@ -6,6 +6,7 @@ interface ColorThemeType {
   black: string;
   white: string;
   light_black_200: string;
+  light_white: string;
   primary_accent: string;
   secondary_accent: string;
   primary_border: string;
@@ -20,6 +21,7 @@ const colorTheme: ColorThemeType = {
   black: "#000000",
   white: "#ffffff",
   light_black_200: "#767676",
+  light_white: "#838383",
   primary_accent: "#404aff",
   secondary_accent: "#5e66ff",
   primary_border: "#cbcbcb",
