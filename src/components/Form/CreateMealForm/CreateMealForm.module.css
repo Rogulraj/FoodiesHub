@@ -1,5 +1,5 @@
 .main_layout {
-  min-height: 80vh;
+  min-height: auto;
   min-width: 80vw;
   display: flex;
   flex-direction: column;
@@ -36,6 +36,10 @@
   height: auto;
   width: 100%;
   margin-top: 7px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10%;
 }
 
 .select_image_card {
@@ -45,6 +49,40 @@
   border-color: var(--primary_accent);
   border-radius: 10px;
   border-width: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.select_category_card {
+  display: flex;
+  flex-direction: column;
+}
+
+.select_category_label {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.select_category_input {
+  height: 45px;
+  width: 200px;
+  margin-top: 5px;
+  border-style: solid;
+  border-radius: 10px;
+  padding-left: 10px;
+  border-color: var(--primary_border);
+  background-color: var(--white);
+  cursor: pointer;
+  color: var(--light_black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+  outline-color: var(--primary_accent);
+}
+
+.select_category_option {
 }
 
 .image_file_label {
@@ -82,6 +120,7 @@
   height: 45px;
   width: auto;
   padding: 15px;
+  border-style: solid;
   border-radius: 10px;
   border-color: var(--primary_border);
   border-width: 1px;
@@ -155,4 +194,12 @@
   font-family: var(--ff_Nunito);
   font-size: 15px;
   font-weight: 700;
+}
+
+.error_message {
+  color: var(--danger);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
 }

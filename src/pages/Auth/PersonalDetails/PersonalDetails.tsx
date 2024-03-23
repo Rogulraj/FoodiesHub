@@ -14,14 +14,15 @@ import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
 import defaultStyle from "./PersonalDetails.module.css";
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
-import TimelineBar from "@components/Elements/TimelineBar/TimelineBar";
+import TimelineBar, {
+  TimelineListType,
+} from "@components/Elements/TimelineBar/TimelineBar";
 import PrimaryForm, {
   InputElementProperties,
 } from "@components/Form/PrimaryForm/PrimaryForm";
 import { CustomButtonPropsType } from "@components/Elements/CustomButton/CustomButton";
 
 //constants
-import authTimelineList from "@constants/authTimeline";
 import routePaths from "@constants/routePaths";
 
 //Redux
@@ -29,6 +30,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/store/store";
 import { signupActions } from "../../../redux/features/signup.slice";
 import { usePostSignupMutation } from "../../../services/auth.service";
 import { RefValuesType } from "@interfaces/form.interface";
+import { TimelineListFinder } from "@helper/timeline.helper";
 
 //React Elements
 const PersonalDetails = (): React.ReactElement => {
@@ -41,9 +43,7 @@ const PersonalDetails = (): React.ReactElement => {
   const [validateError, setValidateError] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  const { email, password, accountType } = useAppSelector(
-    (state) => state.signup
-  );
+  const { accountType } = useAppSelector((state) => state.signup);
   const dispatch = useAppDispatch();
 
   const inputList = useMemo<InputElementProperties[]>(
@@ -185,7 +185,11 @@ const PersonalDetails = (): React.ReactElement => {
           const statusCode = response?.data?.statusCode;
 
           if (statusCode === 201) {
-            navigate(routePaths.login);
+            if (accountType === "personal") {
+              navigate(routePaths.login);
+            } else if (accountType === "restaurant") {
+              navigate(routePaths.restaurantDetails);
+            }
           }
         }
       }
@@ -193,6 +197,8 @@ const PersonalDetails = (): React.ReactElement => {
       console.log("error => ", error);
     }
   };
+
+  const timelineList: TimelineListType[] = TimelineListFinder(accountType);
 
   return (
     <MaxWidthLayout>
@@ -202,8 +208,8 @@ const PersonalDetails = (): React.ReactElement => {
           <DefaultTitle />
           <div className={defaultStyle.timeline_card}>
             <TimelineBar
-              timelineList={authTimelineList}
-              currentTimeline={authTimelineList[1].title}
+              timelineList={timelineList}
+              currentTimeline={timelineList[1].title}
             />
           </div>
           <h1 className={defaultStyle.title}>Personal Details</h1>

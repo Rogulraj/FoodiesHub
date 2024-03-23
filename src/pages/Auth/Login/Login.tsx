@@ -25,6 +25,7 @@ import { RefValuesType } from "@interfaces/form.interface";
 import { usePostLoginMutation } from "../../../services/auth.service";
 import { signupActions } from "../../../redux/features/signup.slice";
 import { useAppDispatch } from "../../../redux/store/store";
+import { VITE_SESSION_TOKEN_NAME } from "@config/index";
 
 //React Element
 const Login = (): React.ReactElement => {
@@ -153,9 +154,10 @@ const Login = (): React.ReactElement => {
           const statusCode = responseData.statusCode;
 
           if (statusCode === 200) {
-            const tokenData = responseData?.data?.tokenData;
+            const tokenData: { token: string; expiresIn: number } =
+              responseData?.data?.tokenData;
 
-            Cookies.set("session-token", tokenData.token, {
+            Cookies.set(VITE_SESSION_TOKEN_NAME, tokenData.token, {
               expires: tokenData.expiresIn,
             });
 

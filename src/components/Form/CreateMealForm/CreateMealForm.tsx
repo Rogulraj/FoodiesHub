@@ -9,44 +9,71 @@ import defaultStyle from "./CreateMealForm.module.css";
 import { IoClose } from "react-icons/io5";
 import colorTheme from "@constants/colorTheme";
 import { FaPlus } from "react-icons/fa6";
+import { ModalType } from "@pages/Restaurant/Menu/RestaurantMenu";
+import { CreateMenuItemModels } from "../../../models/restaurant.model";
+import { useCreateMenuItemMutation } from "../../../services/restaurant.service";
+import { ConvertToBase64 } from "@helper/base64.helper";
 
 //types
 export interface ModalFormPropsType {
   isModal: boolean;
-  closeModal: () => void;
+  closeModal: (type: ModalType["type"]) => void;
+  modalType: ModalType["type"];
+}
+interface RefValuesType {
+  category: string | undefined;
+  name: string | undefined;
+  price: string | undefined;
+  description: string | undefined;
+  ingredients: string | undefined;
+  nutritions: string | undefined;
+  imageUrl: Blob | undefined;
 }
 
 const CreateMealForm = ({
   isModal,
   closeModal,
+  modalType,
 }: ModalFormPropsType): React.ReactElement => {
-  const [imageFile, setImageFile] = useState<File>();
+  const [imageFile, setImageFile] = useState<Blob | undefined>();
 
+  const [validationError, setValidationError] = useState<string[]>([]);
+
+  const [CreateMenuItem] = useCreateMenuItemMutation();
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const categoryRef = useRef<HTMLSelectElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const ingredientsRef = useRef<HTMLInputElement>(null);
-  const nutritionRef = useRef<HTMLInputElement>(null);
+  const nutritionsRef = useRef<HTMLInputElement>(null);
 
   const validationSchema = Yup.object({
+    category: Yup.string().required("please select category"),
     name: Yup.string().required("please enter name"),
     price: Yup.string().required("please enter price"),
     description: Yup.string().required("please enter description"),
     ingredients: Yup.string().required("please enter ingredients"),
-    nutrition: Yup.string().required("please enter nutrition"),
-    imageFile: Yup.mixed().required("please select image"),
+    nutritions: Yup.string().required("please enter nutrition"),
+    imageUrl: Yup.mixed().required("please select image"),
   });
 
-  type FormDataType = Yup.InferType<typeof validationSchema>;
-
   const handleFormValidation = async (
-    formData: FormDataType
+    refValues: RefValuesType
   ): Promise<boolean> => {
     try {
-      await validationSchema.validate(formData, { abortEarly: false });
+      await validationSchema.validate(refValues, { abortEarly: false });
+
+      setValidationError([]);
       return true;
     } catch (error) {
-      console.log("error = ", error);
+      const newErrors: string[] = [];
+      error?.inner?.map((item: { message: string }) =>
+        newErrors.push(item.message)
+      );
+
+      setValidationError(newErrors);
       return false;
     }
   };
@@ -57,26 +84,50 @@ const CreateMealForm = ({
   ): Promise<void> => {
     event.preventDefault();
 
+    const category = categoryRef.current?.value;
     const name = nameRef.current?.value;
     const price = priceRef.current?.value;
     const description = descriptionRef.current?.value;
     const ingredients = ingredientsRef.current?.value;
-    const nutrition = nutritionRef.current?.value;
+    const nutritions = nutritionsRef.current?.value;
 
-    if (name && price && description && ingredients && nutrition && imageFile) {
-      const formData: FormDataType = {
+    try {
+      const refValues: RefValuesType = {
+        category,
         name,
         price,
         description,
         ingredients,
-        nutrition,
-        imageFile,
+        nutritions,
+        imageUrl: imageFile,
       };
 
-      const validate = await handleFormValidation(formData);
+      const validate = await handleFormValidation(refValues);
 
-      // if (validate) {
-      // }
+      if (validate) {
+        // setting form data
+        const base64Image = await ConvertToBase64(imageFile as Blob);
+        const body: CreateMenuItemModels = {
+          type: refValues.category as string,
+          item: {
+            name: refValues.name as string,
+            price: refValues.price as string,
+            description: refValues.description as string,
+            imageUrl: base64Image,
+            ingredients: refValues.ingredients as string,
+            nutritions: refValues.nutritions as string,
+          },
+        };
+
+        // api call
+        const response = await CreateMenuItem(body);
+        console.log("response = ", response);
+
+        formRef.current?.reset();
+        setImageFile(undefined);
+      }
+    } catch (error) {
+      console.log("error = ", error);
     }
   };
 
@@ -85,8 +136,8 @@ const CreateMealForm = ({
   }, []);
   return (
     <Modal
-      isOpen={isModal}
-      onRequestClose={closeModal}
+      isOpen={isModal && modalType === "meal"}
+      onRequestClose={() => closeModal("meal")}
       style={{
         content: {
           top: "50%",
@@ -106,9 +157,13 @@ const CreateMealForm = ({
       <div className={defaultStyle.main_layout}>
         <div className={defaultStyle.title_card}>
           <h4 className={defaultStyle.title}>Create meal item</h4>
-          <IoClose size={30} color={colorTheme.light_white} />
+          <IoClose
+            size={30}
+            color={colorTheme.light_white}
+            onClick={() => closeModal("meal")}
+          />
         </div>
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit} ref={formRef}>
           <h6 className={defaultStyle.form_label_text}>Meal images</h6>
           <div className={defaultStyle.image_card}>
             <div className={defaultStyle.select_image_card}>
@@ -132,6 +187,29 @@ const CreateMealForm = ({
               className={defaultStyle.image_file_input}
               onChange={(e) => setImageFile(e?.target?.files[0])}
             />
+            <div className={defaultStyle.select_category_card}>
+              <label
+                htmlFor="category"
+                className={defaultStyle.select_category_label}>
+                Select Category
+              </label>
+              <select
+                name="category"
+                id="category"
+                ref={categoryRef}
+                className={defaultStyle.select_category_input}>
+                <option
+                  value={"South Indian"}
+                  className={defaultStyle.select_category_option}>
+                  South Indian
+                </option>
+                <option
+                  value={"North Indian"}
+                  className={defaultStyle.select_category_option}>
+                  North Indian
+                </option>
+              </select>
+            </div>
           </div>
           <div className={defaultStyle.input_card}>
             <div className={defaultStyle.name_price_input_card}>
@@ -203,16 +281,18 @@ const CreateMealForm = ({
                   name="nutrition"
                   placeholder="Enter Meal Nutritional Value"
                   className={defaultStyle.name_input}
-                  ref={nutritionRef}
-                  // value={nutritionRef.current?.value}
+                  ref={nutritionsRef}
                 />
               </div>
             </div>
           </div>
+          {validationError.length > 0 && (
+            <p className={defaultStyle.error_message}>*{validationError[0]}</p>
+          )}
           <div className={defaultStyle.button_card}>
             <button
               type="button"
-              onClick={closeModal}
+              onClick={() => closeModal("meal")}
               className={defaultStyle.cancel_btn}>
               cancel
             </button>

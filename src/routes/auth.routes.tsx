@@ -12,6 +12,7 @@ import Signup from "@pages/Auth/Signup/Signup";
 import PersonalDetails from "@pages/Auth/PersonalDetails/PersonalDetails";
 import AdditionalInfo from "@pages/Auth/AdditionalInfo/AdditionalInfo";
 import Confirmation from "@pages/Auth/Confirmation/Confirmation";
+import RestaurantDetails from "@pages/Auth/RestaurantDetails/RestaurantDetails";
 
 //routes
 const authRoutes: routePropsType[] = [
@@ -30,6 +31,10 @@ const authRoutes: routePropsType[] = [
   {
     path: "personal-details",
     element: <PersonalDetails />,
+  },
+  {
+    path: "restaurant-details",
+    element: <RestaurantDetails />,
   },
   {
     path: "additional-info",

@@ -18,6 +18,8 @@ export default defineConfig({
       "@constants": path.resolve(__dirname, "./src/constants"),
       "@utils": path.resolve(__dirname, "./src/utils"),
       "@interfaces": path.resolve(__dirname, "./src/interfaces"),
+      "@helper": path.resolve(__dirname, "./src/helper"),
+      "@config": path.resolve(__dirname, "./src/config"),
     },
   },
 });

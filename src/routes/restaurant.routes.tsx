@@ -9,12 +9,17 @@ import routePaths from "@constants/routePaths";
 
 //types
 import { routePropsType } from "./types/routeProps.type";
+import ProtectedRoute from "@components/Wrappers/ProtectedRoute/ProtectedRoute";
 
 //routes
 const restaurantRoutes: routePropsType[] = [
   {
     path: "home",
-    element: <RestaurantHome />,
+    element: (
+      <ProtectedRoute>
+        <RestaurantHome />,
+      </ProtectedRoute>
+    ),
   },
   {
     path: "*",

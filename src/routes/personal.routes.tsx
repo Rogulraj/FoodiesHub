@@ -9,12 +9,17 @@ import routePaths from "@constants/routePaths";
 
 //types
 import { routePropsType } from "./types/routeProps.type";
+import ProtectedRoute from "@components/Wrappers/ProtectedRoute/ProtectedRoute";
 
 //routes
 const personalRoutes: routePropsType[] = [
   {
     path: "home",
-    element: <PersonalHome />,
+    element: (
+      <ProtectedRoute>
+        <PersonalHome />,
+      </ProtectedRoute>
+    ),
   },
   {
     path: "*",

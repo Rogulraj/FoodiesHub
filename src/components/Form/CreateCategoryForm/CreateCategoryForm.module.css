@@ -1,0 +1,85 @@
+.main_layout {
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.title_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.form_card {
+  height: auto;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category_label {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.category_input {
+  height: 45px;
+  width: 300px;
+  padding: 15px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: var(--primary_border);
+  border-width: 2px;
+  color: var(--light_black);
+  font-family: var(--ff_Nunito);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 2px;
+  margin-bottom: 15px;
+}
+
+.submit_btn_card {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.submit_btn {
+  height: 40px;
+  width: auto;
+  padding: 10px;
+  background-color: var(--primary_accent);
+  border-style: none;
+  border-radius: 10px;
+  color: var(--white);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.error_message {
+  color: var(--danger);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+}

@@ -18,6 +18,25 @@
 @media screen and (min-width: 1200px) {
   .main_layout {
     padding: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+}
+
+.category_menu_container {
+}
+@media screen and (min-width: 1200px) {
+  .category_menu_container {
+    max-width: 40%;
+  }
+}
+
+.menu_item_container {
+}
+@media screen and (min-width: 1200px) {
+  .menu_item_container {
+    width: 60%;
   }
 }
 
@@ -26,6 +45,8 @@
   font-family: var(--ff_Nunito);
   font-size: 20px;
   font-weight: 700;
+  margin: 0px;
+  margin-top: 40px;
 }
 
 .category_card {
@@ -80,4 +101,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+@media screen and (min-width: 900px) {
+  .menu_item_card {
+    gap: 20px;
+  }
 }

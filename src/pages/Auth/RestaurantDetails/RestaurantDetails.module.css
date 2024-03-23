@@ -1,0 +1,134 @@
+.main_layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+}
+@media screen and (min-width: 600px) {
+  .main_layout {
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    padding: 30px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main_layout {
+    padding: 40px;
+  }
+}
+
+.sub_layout {
+  width: 100%;
+  max-width: 500px;
+}
+
+.timeline_card {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-weight: 800;
+  font-size: 40px;
+}
+@media screen and (min-width: 600px) {
+  .title {
+    font-size: 50px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .title {
+    font-size: 51px;
+  }
+}
+
+.form_card {
+}
+.name_input_card {
+  margin-top: 30px;
+}
+
+.name_label {
+  font-family: var(--ff_Nunito);
+  color: var(--black);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.name_input {
+  font-family: var(--ff_Nunito);
+  color: var(--black);
+  font-size: 14px;
+  height: 40px;
+  width: 100%;
+  border-radius: 7px;
+  border-style: solid;
+  border-color: var(--primary_border);
+  border-width: 1px;
+  padding: 15px;
+  outline: none;
+  font-family: var(--ff_Nunito);
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.image_title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0px;
+  margin-top: 20px;
+}
+
+.image_card {
+  height: auto;
+  width: 100%;
+  margin-top: 7px;
+}
+
+.select_image_card {
+  height: 100px;
+  width: 100px;
+  border-style: dashed;
+  border-color: var(--primary_accent);
+  border-radius: 10px;
+  border-width: 2px;
+}
+
+.image_file_label {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.image_file_input {
+  display: none;
+}
+
+.selected_image_style {
+  height: 100%;
+  width: 100%;
+}
+
+.button_card {
+  margin-top: 50px;
+}
+
+.error_message {
+  color: var(--danger);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--ff_Nunito);
+}

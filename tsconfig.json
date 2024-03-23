@@ -28,7 +28,9 @@
       "@pages/*": ["./src/pages/*"],
       "@constants/*": ["./src/constants/*"],
       "@utils/*": ["./src/utils/*"],
-      "@interfaces/*": ["./src/interfaces/*"]
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@helper/*": ["./src/helper/*"],
+      "@config/*": ["./src/config/*"]
     }
   },
   "include": ["src"],

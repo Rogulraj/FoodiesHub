@@ -10,6 +10,11 @@
   flex-direction: column;
   gap: 20px;
 }
+@media screen and (min-width: 900px) {
+  .main_layout {
+    padding: 20px;
+  }
+}
 
 .card_1 {
   height: auto;
@@ -33,6 +38,7 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 @media screen and (min-width: 900px) {
   .image_details_card {
@@ -61,6 +67,11 @@
   font-weight: 700;
   margin: 0px;
 }
+@media screen and (min-width: 900px) {
+  .food_name {
+    font-size: 18px;
+  }
+}
 
 .food_description {
   color: var(--black);
@@ -68,9 +79,16 @@
   font-size: 14px;
   font-weight: 500;
   margin: 0px;
-  /* height: 80px; */
-  text-overflow: ellipsis;
-  overflow: auto;
+  /* height: 10px; */
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+@media screen and (min-width: 900px) {
+  .food_description {
+    font-size: 15px;
+  }
 }
 
 .food_price_edit_card {
@@ -94,6 +112,11 @@
   font-size: 18px;
   font-weight: 700;
   margin: 0px;
+}
+@media screen and (min-width: 900px) {
+  .food_price {
+    font-size: 20px;
+  }
 }
 
 .edit_btn_card {
@@ -128,6 +151,11 @@
   font-weight: 700;
   margin: 0px;
 }
+@media screen and (min-width: 900px) {
+  .ingredients_title {
+    font-size: 16px;
+  }
+}
 
 .ingredients_description {
   color: var(--light_white);
@@ -135,8 +163,16 @@
   font-size: 14px;
   font-weight: 500;
   margin: 0px;
-  text-overflow: ellipsis;
-  overflow: auto;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+@media screen and (min-width: 900px) {
+  .ingredients_description {
+    margin-top: 5px;
+    font-size: 15px;
+  }
 }
 
 .nutrition_card {

@@ -1,5 +1,5 @@
 //packages
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 //css
@@ -9,43 +9,48 @@ import defaultStyle from "./Signup.module.css";
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
-import TimelineBar from "@components/Elements/TimelineBar/TimelineBar";
+import TimelineBar, {
+  TimelineListType,
+} from "@components/Elements/TimelineBar/TimelineBar";
 
 //icons
 import { RiShoppingBag3Line } from "react-icons/ri";
 import colorTheme from "@constants/colorTheme";
 import CustomButton from "@components/Elements/CustomButton/CustomButton";
+import { FaRegUser } from "react-icons/fa";
 
 //constants
-import authTimelineList from "@constants/authTimeline";
 import routePaths from "@constants/routePaths";
 import { useAppDispatch, useAppSelector } from "../../../redux/store/store";
 
 //redux
 import { signupActions } from "../../../redux/features/signup.slice";
+import { TimelineListFinder } from "@helper/timeline.helper";
 
 //types
-export interface SignupAccountType {
-  accountType: "personal" | "restaurant";
-}
+import { AccountType } from "@interfaces/accountType.interface";
 
 //React Element
 const Signup = (): React.ReactElement => {
   // const [accountType, setAccountType] =
-  //   useState<SignupAccountType["accountType"] | null>(null);
+  //   useState<AccountType["accountType"] | null>(null);
 
   const navigate = useNavigate();
 
   const { accountType } = useAppSelector((state) => state.signup);
   const dispatch = useAppDispatch();
 
-  function handleAccountTypeDispatch(value: SignupAccountType["accountType"]) {
+  function handleAccountTypeDispatch(value: AccountType["accountType"]) {
     dispatch(signupActions.handleAccountType(value));
   }
 
-  function handleContinue() {
-    switch (accountType) {
+  function handleContinue(value: AccountType["accountType"]) {
+    switch (value) {
       case "personal":
+        navigate(routePaths.personalDetails);
+        break;
+
+      case "restaurant":
         navigate(routePaths.personalDetails);
         break;
 
@@ -55,6 +60,8 @@ const Signup = (): React.ReactElement => {
     }
   }
 
+  const timelineList: TimelineListType[] = TimelineListFinder(accountType);
+
   return (
     <MaxWidthLayout>
       <div className={defaultStyle.main_layout}>
@@ -63,8 +70,8 @@ const Signup = (): React.ReactElement => {
           <DefaultTitle />
           <div className={defaultStyle.timeline_card}>
             <TimelineBar
-              timelineList={authTimelineList}
-              currentTimeline={authTimelineList[0].title}
+              timelineList={timelineList}
+              currentTimeline={timelineList[0].title}
             />
           </div>
           <div>
@@ -80,12 +87,27 @@ const Signup = (): React.ReactElement => {
               }`}
               onClick={() => handleAccountTypeDispatch("personal")}>
               <div className={defaultStyle.account_icon_card}>
-                <RiShoppingBag3Line size={25} fill={colorTheme.white} />
+                <FaRegUser size={20} fill={colorTheme.white} />
               </div>
               <div className={defaultStyle.account_detail_card}>
                 <h5 className={defaultStyle.account_title}>Personal</h5>
                 <p className={defaultStyle.account_paragraph}>
                   Keep your order in one place
+                </p>
+              </div>
+            </div>
+            <div
+              className={`${defaultStyle.account_card} ${
+                accountType === "restaurant" && defaultStyle.account_card_active
+              }`}
+              onClick={() => handleAccountTypeDispatch("restaurant")}>
+              <div className={defaultStyle.account_icon_card}>
+                <RiShoppingBag3Line size={25} fill={colorTheme.white} />
+              </div>
+              <div className={defaultStyle.account_detail_card}>
+                <h5 className={defaultStyle.account_title}>Restaurant</h5>
+                <p className={defaultStyle.account_paragraph}>
+                  Manage your own restaurant
                 </p>
               </div>
             </div>
@@ -95,7 +117,7 @@ const Signup = (): React.ReactElement => {
               variant="primary"
               type="button"
               title="Continue"
-              onClick={handleContinue}
+              onClick={() => handleContinue(accountType)}
             />
           </div>
           <div className={defaultStyle.bottom_text_card}>
