@@ -6,6 +6,9 @@ export const ConvertToBase64 = async (file: Blob): Promise<string> => {
       const base64Data: string = reader.result.split(",")[1];
       resolve(base64Data);
     };
-    reader.onerror = (error) => reject(error);
+    reader.onerror = (error) => {
+      console.log("error while converting image to base64", error);
+      reject(error);
+    };
   });
 };

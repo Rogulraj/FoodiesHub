@@ -23,40 +23,19 @@ import burger from "@assets/burger.png";
 
 //types
 import { RestaurantCardPropsType } from "@components/Cards/RestaurantCard/RestaurantCard";
-
-const list: RestaurantCardPropsType[] = [
-  {
-    deliveryDuration: "30-40 min",
-    imageUrl: res1,
-    minOrderVal: "$32 min order",
-    tags: ["Pizza", "Burger"],
-    title: "Royal Spicy House",
-  },
-  {
-    deliveryDuration: "30-40 min",
-    imageUrl: res1,
-    minOrderVal: "$32 min order",
-    tags: ["Pizza"],
-    title: "Royal Spicy House",
-  },
-  {
-    deliveryDuration: "30-40 min",
-    imageUrl: res1,
-    minOrderVal: "$32 min order",
-    tags: ["Vegan"],
-    title: "Royal Spicy House",
-  },
-  {
-    deliveryDuration: "30-40 min",
-    imageUrl: res1,
-    minOrderVal: "$32 min order",
-    tags: ["Desserts", "Vegan"],
-    title: "Royal Spicy House",
-  },
-];
+import { useGetAllRestaurantsQuery } from "../../../services/restaurant.service";
+import { useNavigate } from "react-router-dom";
+import routePaths from "@constants/routePaths";
 
 //React Element
 const PersonalHome = (): React.ReactElement => {
+  const { data: restaurantData, error: restaurantError } =
+    useGetAllRestaurantsQuery("");
+
+  const navigate = useNavigate();
+
+  console.log(restaurantData, restaurantError);
+  console.log(`${routePaths.personalRestaurant}/${"va<weGBRAEV"}`);
   return (
     <>
       <CustomHelmet title="Home" />
@@ -97,11 +76,23 @@ const PersonalHome = (): React.ReactElement => {
             <h5 className={defaultStyle.dual_sub_text}>All Restaurant</h5>
           </div>
           <div className={defaultStyle.restaurant_layout}>
-            <div className={defaultStyle.restaurant_card}>
-              {list.map((item, _index) => (
-                <RestaurantCard {...item} key={_index} />
+            <ul className={defaultStyle.restaurant_card}>
+              {restaurantData?.data.map((item, _index) => (
+                <li
+                  key={_index}
+                  onClick={() =>
+                    navigate(`${routePaths.personalRestaurant}/${item._id}`)
+                  }>
+                  <RestaurantCard
+                    name={item.name}
+                    imageUrl={item.imageUrl}
+                    deliveryDuration={item.deliveryDuration}
+                    minOrderVal={item.minOrderVal}
+                    tags={item.tags}
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </MaxWidthLayout>

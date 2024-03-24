@@ -6,6 +6,8 @@ import {
   CreateMenuItemModels,
   CreateMenuTypeModels,
   CreateRestaurantModels,
+  MenuItemsType,
+  RestaurantModel,
 } from "../models/restaurant.model";
 
 const baseUrl = `${VITE_API_BASE_URL}:${VITE_API_PORT}/api/v1/web/restaurant`;
@@ -28,6 +30,34 @@ export const restaurantApi = createApi({
         },
         method: "POST",
         body: userData,
+      }),
+    }),
+
+    // get all restaurant
+    getAllRestaurants: builder.query<
+      CommonResponse<RestaurantModel[]>,
+      unknown
+    >({
+      query: () => ({
+        url: "/",
+        headers: {
+          Authorization: `Bearer ${GetSessionToken()}`,
+        },
+        method: "GET",
+      }),
+    }),
+
+    // get restaurant by id
+    getRestaurantById: builder.query<
+      CommonResponse<RestaurantModel>,
+      { id: string }
+    >({
+      query: ({ id }) => ({
+        url: `/${id}`,
+        headers: {
+          Authorization: `Bearer ${GetSessionToken()}`,
+        },
+        method: "GET",
       }),
     }),
 
@@ -60,11 +90,25 @@ export const restaurantApi = createApi({
         body: userData,
       }),
     }),
+
+    getFoodById: builder.query<
+      CommonResponse<MenuItemsType>,
+      { foodId: string; restaurantId: string; category: string }
+    >({
+      query: ({ foodId, restaurantId, category }) => ({
+        url: `/food/${foodId}?restaurantId=${restaurantId}&category=${category}`,
+        headers: { Authorization: `Bearer ${GetSessionToken()}` },
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
+  useGetAllRestaurantsQuery,
+  useGetRestaurantByIdQuery,
   useCreateRestaurantMutation,
   useCreateMenuTypeMutation,
   useCreateMenuItemMutation,
+  useGetFoodByIdQuery,
 } = restaurantApi;

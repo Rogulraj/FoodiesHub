@@ -3,10 +3,12 @@ import signupReducer from "../features/signup.slice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { authApiSlice } from "../../services/auth.service";
 import { restaurantApi } from "../../services/restaurant.service";
+import cartSliceReducer from "../features/cart.slice";
 
 const store = configureStore({
   reducer: {
     signup: signupReducer,
+    cart: cartSliceReducer,
     [authApiSlice.reducerPath]: authApiSlice.reducer,
     [restaurantApi.reducerPath]: restaurantApi.reducer,
   },

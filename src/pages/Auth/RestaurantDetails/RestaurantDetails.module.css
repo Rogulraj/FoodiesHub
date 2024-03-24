@@ -77,6 +77,7 @@
   color: var(--light_black);
   font-size: 14px;
   font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .image_title {
@@ -131,4 +132,54 @@
   font-size: 15px;
   font-weight: 600;
   font-family: var(--ff_Nunito);
+}
+
+.tag_title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tag_list_card {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0px;
+}
+
+.tag_list_item {
+  height: auto;
+  width: auto;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
+  border-color: var(--primary_border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.active_tag_list_item {
+  border-color: var(--primary_accent);
+  background-color: var(--primary_card_bg);
+}
+
+.tag_list_item_text {
+  color: var(--light_black_200);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0px;
+}
+
+.active_tag_list_item_text {
+  color: var(--black);
 }

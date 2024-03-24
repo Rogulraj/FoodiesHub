@@ -1,6 +1,12 @@
 //packages
-import React, { FormEventHandler, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {
+  FormEventHandler,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
 
@@ -26,6 +32,12 @@ import { usePostLoginMutation } from "../../../services/auth.service";
 import { signupActions } from "../../../redux/features/signup.slice";
 import { useAppDispatch } from "../../../redux/store/store";
 import { VITE_SESSION_TOKEN_NAME } from "@config/index";
+import {
+  GetSessionToken,
+  SetSessionToken,
+  TokenData,
+} from "@helper/sessionToken.helper";
+import { LoginUserBody } from "@interfaces/auth.interface";
 
 //React Element
 const Login = (): React.ReactElement => {
@@ -35,7 +47,8 @@ const Login = (): React.ReactElement => {
   const [validateError, setValidateError] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
-  const [userLogin] = usePostLoginMutation();
+  const [UserLogin, { data: loginResponse, error: loginError }] =
+    usePostLoginMutation();
 
   const inputList = useMemo<InputElementProperties[]>(
     () => [
@@ -103,13 +116,6 @@ const Login = (): React.ReactElement => {
           abortEarly: false,
         }
       );
-
-      dispatch(
-        signupActions.handleEmailPassword({
-          email: refValues.email,
-          password: refValues.password,
-        })
-      );
       setValidateError([]);
       return true;
     } catch (error) {
@@ -138,32 +144,12 @@ const Login = (): React.ReactElement => {
       };
       const validate = await handleFormValidation(refValues);
 
-      if (
-        validate &&
-        refValues.email !== undefined &&
-        refValues.password !== undefined
-      ) {
-        const response = await userLogin({
-          email: refValues.email,
-          password: refValues.password,
-        });
-
-        const responseData = response?.data;
-
-        if (responseData) {
-          const statusCode = responseData.statusCode;
-
-          if (statusCode === 200) {
-            const tokenData: { token: string; expiresIn: number } =
-              responseData?.data?.tokenData;
-
-            Cookies.set(VITE_SESSION_TOKEN_NAME, tokenData.token, {
-              expires: tokenData.expiresIn,
-            });
-
-            navigate(routePaths.personalHome);
-          }
-        }
+      if (validate) {
+        const body: LoginUserBody = {
+          email: refValues.email as string,
+          password: refValues.password as string,
+        };
+        await UserLogin(body);
       }
     } catch (err) {
       console.log("error => ", err);
@@ -177,6 +163,25 @@ const Login = (): React.ReactElement => {
   const handleSignup = () => {
     navigate(routePaths.signup);
   };
+
+  console.log(loginResponse);
+  console.log(validateError);
+
+  useEffect(() => {
+    if (GetSessionToken()) {
+      navigate(routePaths.personalHome);
+    } else if (loginResponse?.statusCode === 200) {
+      dispatch(
+        signupActions.handleAllData({
+          email: emailRef.current?.value,
+          password: passwordRef.current?.value,
+        })
+      );
+      const tokenData: TokenData = loginResponse.data.tokenData;
+      SetSessionToken(tokenData);
+      navigate(routePaths.personalHome);
+    }
+  }, [loginResponse]);
 
   return (
     <MaxWidthLayout>

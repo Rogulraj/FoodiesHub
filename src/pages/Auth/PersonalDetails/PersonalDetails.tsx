@@ -2,11 +2,12 @@
 import React, {
   FormEvent,
   FormEventHandler,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 //components
@@ -31,10 +32,14 @@ import { signupActions } from "../../../redux/features/signup.slice";
 import { usePostSignupMutation } from "../../../services/auth.service";
 import { RefValuesType } from "@interfaces/form.interface";
 import { TimelineListFinder } from "@helper/timeline.helper";
+import { CreateUserBody } from "@interfaces/auth.interface";
 
 //React Elements
 const PersonalDetails = (): React.ReactElement => {
-  const [createUser] = usePostSignupMutation();
+  const [CreateUser, { data: createUserData, error: createUserError }] =
+    usePostSignupMutation();
+
+  console.log(createUserData, createUserError);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -119,26 +124,15 @@ const PersonalDetails = (): React.ReactElement => {
       .required("Confirm password is required."),
   });
 
-  async function handleFormValidation(): Promise<boolean> {
+  async function handleFormValidation(
+    refValues: RefValuesType
+  ): Promise<boolean> {
     try {
-      const refValues: RefValuesType = {
-        email: emailRef.current?.value,
-        password: passwordRef.current?.value,
-        confirmPassword: confirmPasswordRef.current?.value,
-      };
-
       await validationSchema.validate(
         { ...refValues, accountType },
         {
           abortEarly: false,
         }
-      );
-
-      dispatch(
-        signupActions.handleEmailPassword({
-          email: refValues.email,
-          password: refValues.password,
-        })
       );
       setValidateError([]);
       return true;
@@ -161,37 +155,22 @@ const PersonalDetails = (): React.ReactElement => {
   ): Promise<void> => {
     event.preventDefault();
 
+    const refValues: RefValuesType = {
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value,
+      confirmPassword: confirmPasswordRef.current?.value,
+    };
     try {
-      const isValidate = await handleFormValidation();
+      const isValidate = await handleFormValidation(refValues);
 
-      const refValues: RefValuesType = {
-        email: emailRef.current?.value,
-        password: passwordRef.current?.value,
-        confirmPassword: confirmPasswordRef.current?.value,
-      };
-
-      if (
-        isValidate &&
-        refValues.email !== undefined &&
-        refValues.password !== undefined
-      ) {
-        const response = await createUser({
-          email: refValues.email,
-          password: refValues.password,
+      if (isValidate) {
+        const body: CreateUserBody = {
+          email: refValues.email as string,
+          password: refValues.password as string,
           accountType,
-        });
+        };
 
-        if (response?.data) {
-          const statusCode = response?.data?.statusCode;
-
-          if (statusCode === 201) {
-            if (accountType === "personal") {
-              navigate(routePaths.login);
-            } else if (accountType === "restaurant") {
-              navigate(routePaths.restaurantDetails);
-            }
-          }
-        }
+        await CreateUser(body);
       }
     } catch (error) {
       console.log("error => ", error);
@@ -199,6 +178,21 @@ const PersonalDetails = (): React.ReactElement => {
   };
 
   const timelineList: TimelineListType[] = TimelineListFinder(accountType);
+
+  useEffect(() => {
+    if (createUserData?.statusCode === 201) {
+      dispatch(
+        signupActions.handleAllData({
+          email: emailRef.current?.value,
+          password: passwordRef.current?.value,
+          _id: createUserData.data._id,
+        })
+      );
+      if (accountType === "personal") navigate(routePaths.login);
+      else if (accountType === "restaurant")
+        navigate(routePaths.restaurantDetails);
+    }
+  }, [createUserData]);
 
   return (
     <MaxWidthLayout>

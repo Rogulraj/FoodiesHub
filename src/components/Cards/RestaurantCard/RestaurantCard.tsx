@@ -17,29 +17,27 @@ import burgerIcon from "@assets/burger_icon.png";
 import pizzaIcon from "@assets/pizza_icon.png";
 import veganIcon from "@assets/vegan_icon.png";
 import dessertsIcon from "@assets/desserts_icon.png";
+import { RestaurantTags, RestaurantTagsList } from "@constants/restaurant";
 
 //types
-export interface RestaurantCardTagsType {
-  tagsType: "Pizza" | "Burger" | "Vegan" | "Desserts";
-}
 
 export interface RestaurantCardPropsType {
   imageUrl: string;
-  title: string;
+  name: string;
   deliveryDuration: string;
-  minOrderVal: string;
-  tags: RestaurantCardTagsType["tagsType"][];
+  minOrderVal: number;
+  tags: RestaurantTagsList;
 }
 
 //React Element
 const RestaurantCard = ({
-  deliveryDuration,
   imageUrl,
+  name,
+  deliveryDuration,
   minOrderVal,
   tags,
-  title,
 }: RestaurantCardPropsType): React.ReactElement => {
-  const findTag = useCallback((val: RestaurantCardTagsType["tagsType"]) => {
+  const findTag = useCallback((val: RestaurantTags) => {
     switch (val) {
       case "Pizza":
         return pizzaIcon;
@@ -69,14 +67,17 @@ const RestaurantCard = ({
       </div>
       <div className={defaultStyle.details_card}>
         <div className={defaultStyle.title_card}>
-          <h4 className={defaultStyle.title_text}>{title}</h4>
+          <h4 className={defaultStyle.title_text}>{name}</h4>
           <RiShoppingBag3Line size={20} color={colorTheme.primary_border} />
         </div>
         <div className={defaultStyle.duration_card}>
           <FiClock size={15} color={colorTheme.primary_border} />
           <p className={defaultStyle.duration_text}>{deliveryDuration}</p>
           <BsDot />
-          <p className={defaultStyle.min_order_text}>{minOrderVal}</p>
+          <p
+            className={
+              defaultStyle.min_order_text
+            }>{`$${minOrderVal} min order`}</p>
         </div>
         <ul className={defaultStyle.tag_card}>
           {tags.map((item, _index) => (

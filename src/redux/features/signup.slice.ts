@@ -5,12 +5,14 @@ export interface SignupState {
   accountType: AccountType["accountType"];
   email: string;
   password: string;
+  _id?: string;
 }
 
 const initialState: SignupState = {
   accountType: "personal",
   email: "",
   password: "",
+  _id: "",
 };
 
 const signupSlice = createSlice({
@@ -24,10 +26,7 @@ const signupSlice = createSlice({
       state.accountType = action.payload;
     },
 
-    handleEmailPassword: (
-      state,
-      action: PayloadAction<Partial<SignupState>>
-    ) => {
+    handleAllData: (state, action: PayloadAction<Partial<SignupState>>) => {
       return { ...state, ...action.payload };
     },
   },

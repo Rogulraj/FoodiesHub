@@ -1,0 +1,121 @@
+.main_layout {
+  height: auto;
+  width: 330px;
+  padding: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--primary_border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    width: 350px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main_layout {
+    padding: 15px;
+    width: 360px;
+  }
+}
+.main_layout:hover {
+  /* border-color: var(--primary_accent); */
+  /* border-width: 2px; */
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  /* rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; */
+}
+
+.image_card {
+  height: 200px;
+  width: auto;
+}
+
+.image_style {
+  height: 100%;
+  width: 100%;
+}
+
+.details_card {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail_title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0px;
+}
+@media screen and (min-width: 600px) {
+  .detail_title {
+    font-size: 17px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .detail_title {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .detail_title {
+    font-size: 20px;
+  }
+}
+
+.detail_paragraph {
+  color: var(--light_white);
+  font-family: var(--ff_Nunito);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0px;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.price_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-weight: 800;
+  font-size: 18px;
+}
+@media screen and (min-width: 600px) {
+  .price {
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .price {
+    font-size: 22px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .price {
+    font-size: 24px;
+  }
+}
+
+.plus_icon_card {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: var(--primary_card_bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+}

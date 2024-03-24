@@ -7,6 +7,8 @@ interface RoutePathsType {
   additionalInfo: string;
   confirmation: string;
   personalHome: string;
+  personalRestaurant: string;
+  personalFood: string;
   restaurantDetails: string;
   restaurantHome: string;
 }
@@ -20,6 +22,8 @@ const routePaths: RoutePathsType = {
   additionalInfo: "/auth/additional-info",
   confirmation: "/auth/confirmation",
   personalHome: "/personal/home",
+  personalRestaurant: "/personal/restaurant", //ADD ID
+  personalFood: "/personal/restaurant/food", //ADD ID
   restaurantDetails: "/auth/restaurant-details",
   restaurantHome: "/restaurant/home",
 };

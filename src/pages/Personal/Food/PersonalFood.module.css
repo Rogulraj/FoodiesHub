@@ -1,0 +1,153 @@
+.main_layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .main_layout {
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    padding: 30px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main_layout {
+    padding: 40px;
+  }
+}
+
+.back_btn_card {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+}
+
+.back_btn_text {
+  color: var(--light_balck_200);
+  font-family: var(--ff_Nunito);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.image_card {
+  height: auto;
+  width: 100%;
+  /* max-height: 400px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.image_style {
+  height: 100%;
+  max-height: 600px;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.food_name {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 25px;
+  font-weight: 750;
+  margin: 0px;
+  margin-top: 20px;
+}
+
+.food_paragraph {
+  color: var(--light_white);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+  margin-top: 5px;
+}
+
+.price_cart_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price_text {
+  color: var(--black);
+  font-size: 22px;
+  font-weight: 750;
+  font-family: var(--ff_Nunito);
+}
+
+.cart_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.cart_count_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart_count_btn {
+  height: 25px;
+  width: 25px;
+  border-style: none;
+  border-radius: 5px;
+  background-color: var(--primary_card_bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.add_cart_btn {
+  height: 40px;
+  width: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 7px;
+  border-style: none;
+  background-color: var(--primary_accent);
+  color: var(--white);
+  font-family: var(--ff_Nunito);
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.ingredients_title {
+  color: var(--black);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+  margin-top: 10px;
+}
+
+.ingredients_paragraph {
+  color: var(--light_white);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+  margin-top: 7px;
+}
+
+.nutrition_card {
+  margin-top: 25px;
+}
