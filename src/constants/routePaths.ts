@@ -9,6 +9,7 @@ interface RoutePathsType {
   personalHome: string;
   personalRestaurant: string;
   personalFood: string;
+  personalCart: string;
   restaurantDetails: string;
   restaurantHome: string;
 }
@@ -24,6 +25,7 @@ const routePaths: RoutePathsType = {
   personalHome: "/personal/home",
   personalRestaurant: "/personal/restaurant", //ADD ID
   personalFood: "/personal/restaurant/food", //ADD ID
+  personalCart: "/personal/restaurant/cart",
   restaurantDetails: "/auth/restaurant-details",
   restaurantHome: "/restaurant/home",
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import defaultStyle from "./PersonalFood.module.css";
 import PrimaryHeader from "@components/Headers/PrimaryHeader/PrimaryHeader";
 import MaxWidthLayout from "@components/Layouts/MaxWidthLayout/MaxWidthLayout";
@@ -10,43 +10,65 @@ import colorTheme from "@constants/colorTheme";
 
 import pic from "@assets/restaurant/restaurant_1.jpg";
 import CustomButton from "@components/Elements/CustomButton/CustomButton";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/store/store";
-import { cartSliceActions } from "../../../redux/features/cart.slice";
+import {
+  CartListItems,
+  cartSliceActions,
+} from "../../../redux/features/cart.slice";
 import { useGetFoodByIdQuery } from "../../../services/restaurant.service";
+import routePaths from "@constants/routePaths";
 
 const PersonalFood = (): React.ReactElement => {
-  const { id: foodId } = useParams();
+  const { id } = useParams();
+  const foodId: string = id as string;
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
   // Get individual query parameters
   const restaurantId: string = queryParams.get("restaurantId");
-  const category: string = queryParams.get("category");
+  const categoryQuery: string = queryParams.get("category");
+
+  const naviagte = useNavigate();
 
   const { data: foodData, error: foodError } = useGetFoodByIdQuery({
     foodId,
     restaurantId,
-    category,
+    category: categoryQuery,
   });
+  console.log(foodData, foodError);
 
   const dispatch = useAppDispatch();
   const { cartList } = useAppSelector((state) => state.cart);
 
+  const itemQuantity: number | undefined = useMemo(() => {
+    const item = cartList.find((cart) => cart._id === foodId);
+    return item?.quantity;
+  }, [cartList]);
+
   const addToCart = () => {
     dispatch(
       cartSliceActions.addToCart({
-        _id: "1",
-        category: "breakfast",
-        name: "dosa",
-        price: 102,
+        _id: foodData?.data?._id as string,
+        category: categoryQuery,
+        name: foodData?.data?.name as string,
+        price: foodData?.data?.price as number,
         quantity: 1,
+        imageUrl: foodData?.data?.imageUrl as string,
+        description: foodData?.data?.description as string,
       })
     );
   };
 
   const removeFromCart = () => {
-    dispatch(cartSliceActions.removeFromCart({ id: "1" }));
+    dispatch(
+      cartSliceActions.removeFromCart({ id: foodData?.data?._id as string })
+    );
+  };
+
+  const cartBtnHandler = () => {
+    addToCart();
+    naviagte(routePaths.personalCart);
   };
 
   return (
@@ -55,9 +77,14 @@ const PersonalFood = (): React.ReactElement => {
       <PrimaryHeader />
       <MaxWidthLayout>
         <div className={defaultStyle.main_layout}>
-          <div className={defaultStyle.back_btn_card}>
-            <IoChevronBack color={colorTheme.light_black_200} size={20} />
-            <p className={defaultStyle.back_btn_text}>Royal spicy</p>
+          <div
+            className={defaultStyle.back_btn_card}
+            onClick={() => naviagte(-1)}>
+            <IoChevronBack
+              color={colorTheme.light_black_200}
+              className={defaultStyle.back_icon}
+            />
+            <p className={defaultStyle.back_btn_text}>Restaurant</p>
           </div>
           <div className={defaultStyle.image_card}>
             <img
@@ -81,18 +108,25 @@ const PersonalFood = (): React.ReactElement => {
                 <button
                   type="button"
                   className={defaultStyle.cart_count_btn}
-                  onClick={removeFromCart}>
+                  onClick={() => removeFromCart()}>
                   <FaMinus size={12} color={colorTheme.black} />
                 </button>
-                <p>1</p>
+                {itemQuantity ? (
+                  <p className={defaultStyle.quantity_text}>{itemQuantity}</p>
+                ) : (
+                  <p className={defaultStyle.quantity_text}>{0}</p>
+                )}
                 <button
                   type="button"
                   className={defaultStyle.cart_count_btn}
-                  onClick={addToCart}>
+                  onClick={() => addToCart()}>
                   <FaPlus size={12} color={colorTheme.black} />
                 </button>
               </div>
-              <button type="button" className={defaultStyle.add_cart_btn}>
+              <button
+                type="button"
+                className={defaultStyle.add_cart_btn}
+                onClick={cartBtnHandler}>
                 Add to cart <FaPlus size={12} color={colorTheme.white} />
               </button>
             </div>

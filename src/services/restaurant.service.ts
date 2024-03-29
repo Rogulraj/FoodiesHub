@@ -1,13 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { CommonResponse } from "../models";
+import { CommonResponse, IdResponse } from "../models";
 import { VITE_API_BASE_URL, VITE_API_PORT } from "@config/index";
 import { GetSessionToken } from "@helper/sessionToken.helper";
 import {
   CreateMenuItemModels,
-  CreateMenuTypeModels,
+  CreateMenuCategoryModels,
   CreateRestaurantModels,
-  MenuItemsType,
+  MenuCategoryItems,
   RestaurantModel,
+  MenuType,
+  UpdateFoodByIdModel,
+  RemoveFoodByIdModel,
 } from "../models/restaurant.model";
 
 const baseUrl = `${VITE_API_BASE_URL}:${VITE_API_PORT}/api/v1/web/restaurant`;
@@ -64,10 +67,10 @@ export const restaurantApi = createApi({
     // create menu type
     createMenuType: builder.mutation<
       CommonResponse<string>,
-      CreateMenuTypeModels
+      CreateMenuCategoryModels
     >({
       query: (userData) => ({
-        url: "/add-menu-type",
+        url: "/add-menu-category",
         headers: {
           Authorization: `Bearer ${GetSessionToken()}`,
         },
@@ -91,14 +94,62 @@ export const restaurantApi = createApi({
       }),
     }),
 
+    // Get all the menu items
+    getAllMenuItems: builder.query<CommonResponse<MenuType[]>, unknown>({
+      query: () => ({
+        url: "/menu-items",
+        headers: { Authorization: `Bearer ${GetSessionToken()}` },
+        method: "GET",
+      }),
+    }),
+
     getFoodById: builder.query<
-      CommonResponse<MenuItemsType>,
+      CommonResponse<MenuCategoryItems>,
       { foodId: string; restaurantId: string; category: string }
     >({
       query: ({ foodId, restaurantId, category }) => ({
         url: `/food/${foodId}?restaurantId=${restaurantId}&category=${category}`,
         headers: { Authorization: `Bearer ${GetSessionToken()}` },
         method: "GET",
+      }),
+    }),
+
+    // update food item by id
+    updateFoodById: builder.mutation<
+      CommonResponse<IdResponse>,
+      UpdateFoodByIdModel
+    >({
+      query: ({ foodId, restaurantId, categoryId, item }) => ({
+        url: `/food/update/${foodId}`,
+        headers: { Authorization: `Bearer ${GetSessionToken()}` },
+        body: { restaurantId, categoryId, item },
+        method: "PUT",
+      }),
+    }),
+
+    /** DELETE */
+    removeMenuCategaory: builder.mutation<
+      CommonResponse<MenuType>,
+      { categoryId: string }
+    >({
+      query: ({ categoryId }) => ({
+        url: `/food/remove-category/${categoryId}`,
+        headers: {
+          Authorization: `Bearer ${GetSessionToken()}`,
+        },
+        method: "DELETE",
+      }),
+    }),
+
+    removeFoodById: builder.mutation<
+      CommonResponse<IdResponse>,
+      RemoveFoodByIdModel
+    >({
+      query: ({ foodId, restaurantId, categoryId }) => ({
+        url: `/food/remove-food/${foodId}`,
+        headers: { Authorization: `Bearer ${GetSessionToken()}` },
+        body: { restaurantId, categoryId },
+        method: "DELETE",
       }),
     }),
   }),
@@ -110,5 +161,9 @@ export const {
   useCreateRestaurantMutation,
   useCreateMenuTypeMutation,
   useCreateMenuItemMutation,
+  useGetAllMenuItemsQuery,
   useGetFoodByIdQuery,
+  useUpdateFoodByIdMutation,
+  useRemoveFoodByIdMutation,
+  useRemoveMenuCategaoryMutation,
 } = restaurantApi;

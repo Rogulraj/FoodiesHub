@@ -4,14 +4,12 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 export interface SignupState {
   accountType: AccountType["accountType"];
   email: string;
-  password: string;
   _id?: string;
 }
 
 const initialState: SignupState = {
   accountType: "personal",
   email: "",
-  password: "",
   _id: "",
 };
 

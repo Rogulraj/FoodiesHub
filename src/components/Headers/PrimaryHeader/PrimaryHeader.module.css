@@ -9,7 +9,7 @@
 
 .sub_layout {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -35,7 +35,8 @@
 }
 
 .title_card {
-  width: 30%;
+  cursor: pointer;
+  width: 10%;
 }
 
 .header_list {
@@ -57,6 +58,48 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+@media screen and (min-width: 900px) {
+  .shop_icon_card {
+    height: 50px;
+    width: 50px;
+  }
+}
+
+.shop_icon {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+@media screen and (min-width: 900px) {
+  .shop_icon {
+    height: 25px;
+    width: 25px;
+  }
+}
+
+.badge {
+  color: var(--constant_white);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--ff_Nunito);
+  padding: 1px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30%;
+  background-color: var(--primary_accent);
+  margin: 0px;
+  position: absolute;
+  top: -10px;
+  left: 25px;
+}
+@media screen and (min-width: 900px) {
+  .badge {
+    left: 30px;
+  }
 }
 
 .profile_pic {

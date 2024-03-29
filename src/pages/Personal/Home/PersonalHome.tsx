@@ -17,12 +17,10 @@ import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
 import colorTheme from "@constants/colorTheme";
 
 //assets
-import res1 from "@assets/restaurant/restaurant_1.jpg";
 import cupCake from "@assets/cup_cake.png";
 import burger from "@assets/burger.png";
 
 //types
-import { RestaurantCardPropsType } from "@components/Cards/RestaurantCard/RestaurantCard";
 import { useGetAllRestaurantsQuery } from "../../../services/restaurant.service";
 import { useNavigate } from "react-router-dom";
 import routePaths from "@constants/routePaths";
@@ -34,8 +32,6 @@ const PersonalHome = (): React.ReactElement => {
 
   const navigate = useNavigate();
 
-  console.log(restaurantData, restaurantError);
-  console.log(`${routePaths.personalRestaurant}/${"va<weGBRAEV"}`);
   return (
     <>
       <CustomHelmet title="Home" />

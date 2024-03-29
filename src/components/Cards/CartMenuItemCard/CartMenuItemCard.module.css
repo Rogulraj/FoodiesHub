@@ -1,0 +1,148 @@
+.main_layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.image_details_card {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 10px;
+}
+@media screen and (min-width: 600px) {
+  .image_details_card {
+    gap: 15px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .image_details_card {
+    gap: 20px;
+  }
+}
+
+.image_style {
+  height: 50px;
+  width: 50px;
+  border-style: solid;
+  border-radius: 10px;
+}
+@media screen and (min-width: 600px) {
+  .image_style {
+    height: 60px;
+    width: 60px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .image_style {
+    height: 70px;
+    width: 70px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .image_style {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+.details_card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.food_name {
+  color: var(--black);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+}
+@media screen and (min-width: 600px) {
+  .food_name {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .food_name {
+    font-size: 20px;
+  }
+}
+
+.food_description {
+  color: var(--light_white);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+@media screen and (min-width: 600px) {
+  .food_description {
+    font-size: 15px;
+  }
+}
+
+.price_quantity_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quantity_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.price_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.price_text {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0px;
+}
+@media screen and (min-width: 600px) {
+  .price_text {
+    font-size: 22px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .price_text {
+    font-size: 25px;
+  }
+}
+
+.quantity_btn {
+  height: 20px;
+  width: 20px;
+  border-style: none;
+  border-radius: 5px;
+  background-color: var(--primary_card_bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (min-width: 600px) {
+  .quantity_btn {
+    height: 25px;
+    width: 25px;
+  }
+}

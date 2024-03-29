@@ -38,6 +38,9 @@ import {
   TokenData,
 } from "@helper/sessionToken.helper";
 import { LoginUserBody } from "@interfaces/auth.interface";
+import { AccountType } from "@interfaces/accountType.interface";
+import { SetCookies } from "@helper/cookies.helper";
+import { toast } from "react-toastify";
 
 //React Element
 const Login = (): React.ReactElement => {
@@ -47,8 +50,10 @@ const Login = (): React.ReactElement => {
   const [validateError, setValidateError] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
-  const [UserLogin, { data: loginResponse, error: loginError }] =
-    usePostLoginMutation();
+  const [
+    UserLogin,
+    { data: loginResponse, error: loginError, isError: isLoginError },
+  ] = usePostLoginMutation();
 
   const inputList = useMemo<InputElementProperties[]>(
     () => [
@@ -165,23 +170,33 @@ const Login = (): React.ReactElement => {
   };
 
   console.log(loginResponse);
-  console.log(validateError);
+  // console.log(validateError);
 
   useEffect(() => {
-    if (GetSessionToken()) {
-      navigate(routePaths.personalHome);
-    } else if (loginResponse?.statusCode === 200) {
+    if (loginResponse?.statusCode === 200) {
       dispatch(
         signupActions.handleAllData({
           email: emailRef.current?.value,
-          password: passwordRef.current?.value,
+          _id: loginResponse.data._id,
+          accountType: loginResponse?.data
+            ?.accountType as AccountType["accountType"],
         })
       );
       const tokenData: TokenData = loginResponse.data.tokenData;
       SetSessionToken(tokenData);
-      navigate(routePaths.personalHome);
+      SetCookies("restaurantId", loginResponse.data._id);
+
+      if (loginResponse.data.accountType === "personal") {
+        navigate(routePaths.personalHome, { replace: true });
+      } else if (loginResponse.data.accountType === "restaurant") {
+        navigate(routePaths.restaurantHome, { replace: true });
+      }
+    } else if (isLoginError) {
+      console.log("login error = ", isLoginError, loginError);
+
+      toast.warning(loginError?.data?.message as string);
     }
-  }, [loginResponse]);
+  }, [loginResponse, isLoginError]);
 
   return (
     <MaxWidthLayout>

@@ -10,20 +10,26 @@ import { IoClose } from "react-icons/io5";
 import colorTheme from "@constants/colorTheme";
 import { FaPlus } from "react-icons/fa6";
 import { ModalType } from "@pages/Restaurant/Menu/RestaurantMenu";
-import { CreateMenuItemModels } from "../../../models/restaurant.model";
+import {
+  CreateMenuItemModels,
+  MenuType,
+} from "../../../models/restaurant.model";
 import { useCreateMenuItemMutation } from "../../../services/restaurant.service";
 import { ConvertToBase64 } from "@helper/base64.helper";
+import { toast } from "react-toastify";
 
 //types
 export interface ModalFormPropsType {
   isModal: boolean;
-  closeModal: (type: ModalType["type"]) => void;
-  modalType: ModalType["type"];
+  closeModal: (type: ModalType) => void;
+  modalType: ModalType;
+  refetch: () => Promise<void>;
+  menuList: MenuType[];
 }
 interface RefValuesType {
   category: string | undefined;
   name: string | undefined;
-  price: string | undefined;
+  price: number | undefined;
   description: string | undefined;
   ingredients: string | undefined;
   nutritions: string | undefined;
@@ -34,12 +40,17 @@ const CreateMealForm = ({
   isModal,
   closeModal,
   modalType,
+  refetch,
+  menuList,
 }: ModalFormPropsType): React.ReactElement => {
   const [imageFile, setImageFile] = useState<Blob | undefined>();
 
   const [validationError, setValidationError] = useState<string[]>([]);
 
-  const [CreateMenuItem] = useCreateMenuItemMutation();
+  const [
+    CreateMenuItem,
+    { data: createMenuItemData, isError: createMenuItemIsError },
+  ] = useCreateMenuItemMutation();
 
   const formRef = useRef<HTMLFormElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
@@ -52,7 +63,7 @@ const CreateMealForm = ({
   const validationSchema = Yup.object({
     category: Yup.string().required("please select category"),
     name: Yup.string().required("please enter name"),
-    price: Yup.string().required("please enter price"),
+    price: Yup.number().required("please enter price"),
     description: Yup.string().required("please enter description"),
     ingredients: Yup.string().required("please enter ingredients"),
     nutritions: Yup.string().required("please enter nutrition"),
@@ -69,6 +80,7 @@ const CreateMealForm = ({
       return true;
     } catch (error) {
       const newErrors: string[] = [];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       error?.inner?.map((item: { message: string }) =>
         newErrors.push(item.message)
       );
@@ -95,7 +107,7 @@ const CreateMealForm = ({
       const refValues: RefValuesType = {
         category,
         name,
-        price,
+        price: parseInt(price as string),
         description,
         ingredients,
         nutritions,
@@ -108,10 +120,10 @@ const CreateMealForm = ({
         // setting form data
         const base64Image = await ConvertToBase64(imageFile as Blob);
         const body: CreateMenuItemModels = {
-          type: refValues.category as string,
+          category: refValues.category as string,
           item: {
             name: refValues.name as string,
-            price: refValues.price as string,
+            price: refValues.price as number,
             description: refValues.description as string,
             imageUrl: base64Image,
             ingredients: refValues.ingredients as string,
@@ -120,20 +132,32 @@ const CreateMealForm = ({
         };
 
         // api call
-        const response = await CreateMenuItem(body);
-        console.log("response = ", response);
-
-        formRef.current?.reset();
-        setImageFile(undefined);
+        await CreateMenuItem(body);
       }
     } catch (error) {
-      console.log("error = ", error);
+      toast.error("Something went wrong!");
     }
   };
-
   useEffect(() => {
     Modal.setAppElement("body");
   }, []);
+
+  useEffect(() => {
+    if (createMenuItemData?.statusCode === 201) {
+      toast.success("Meal Added!");
+      formRef.current?.reset();
+      setImageFile(undefined);
+      closeModal("meal");
+      refetch()
+        .then((val) => val)
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (createMenuItemIsError) {
+      toast.error("Something went wrong!");
+    }
+  }, [createMenuItemData, createMenuItemIsError]);
+
   return (
     <Modal
       isOpen={isModal && modalType === "meal"}
@@ -198,16 +222,14 @@ const CreateMealForm = ({
                 id="category"
                 ref={categoryRef}
                 className={defaultStyle.select_category_input}>
-                <option
-                  value={"South Indian"}
-                  className={defaultStyle.select_category_option}>
-                  South Indian
-                </option>
-                <option
-                  value={"North Indian"}
-                  className={defaultStyle.select_category_option}>
-                  North Indian
-                </option>
+                {menuList?.map((item, _index) => (
+                  <option
+                    key={_index}
+                    value={item.category}
+                    className={defaultStyle.select_category_option}>
+                    {item.category}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -292,7 +314,10 @@ const CreateMealForm = ({
           <div className={defaultStyle.button_card}>
             <button
               type="button"
-              onClick={() => closeModal("meal")}
+              onClick={() => {
+                closeModal("meal");
+                setImageFile(undefined);
+              }}
               className={defaultStyle.cancel_btn}>
               cancel
             </button>

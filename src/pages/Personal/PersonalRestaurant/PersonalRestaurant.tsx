@@ -11,6 +11,11 @@ import { useGetRestaurantByIdQuery } from "../../../services/restaurant.service"
 import { useNavigate, useParams } from "react-router-dom";
 import { MenuItemsType } from "src/models/restaurant.model";
 import routePaths from "@constants/routePaths";
+import { RiShoppingCartLine } from "react-icons/ri";
+import colorTheme from "@constants/colorTheme";
+import { FiClock } from "react-icons/fi";
+import { BsDot } from "react-icons/bs";
+import { IoChevronBack } from "react-icons/io5";
 
 const PersonalRestaurant = () => {
   const { id: restaurantId } = useParams();
@@ -21,20 +26,6 @@ const PersonalRestaurant = () => {
   const navigate = useNavigate();
 
   console.log(restaurantData?.data, restaurantError);
-  // console.log(restaurantId);
-
-  // useEffect(() => {
-  //   if (restaurantData?.statusCode === 200) {
-  //     const menuTypeLength = Object.keys(
-  //       restaurantData?.data?.menuType as object
-  //     ).length;
-  //     if (menuTypeLength > 0) {
-  //       Object.entries(restaurantData?.data.menuType as object).forEach(
-  //         (item) => console.log(item)
-  //       );
-  //     }
-  //   }
-  // }, [restaurantData]);
 
   return (
     <>
@@ -42,6 +33,15 @@ const PersonalRestaurant = () => {
       <PrimaryHeader />
       <MaxWidthLayout>
         <div className={defaultStyle.main_layout}>
+          <div
+            className={defaultStyle.back_btn_card}
+            onClick={() => navigate(-1)}>
+            <IoChevronBack
+              color={colorTheme.light_black_200}
+              className={defaultStyle.back_icon}
+            />
+            <p className={defaultStyle.back_btn_text}>Home</p>
+          </div>
           <div className={defaultStyle.profile_card}>
             <div className={defaultStyle.profile_image_card}>
               <img
@@ -52,44 +52,63 @@ const PersonalRestaurant = () => {
             </div>
             <div className={defaultStyle.profile_details_card}>
               <h3 className={defaultStyle.restaurant_name}>
-                Royal Spicy House
+                {restaurantData?.data.name}
               </h3>
+              <div className={defaultStyle.duration_card}>
+                <FiClock size={15} color={colorTheme.primary_border} />
+                <p className={defaultStyle.duration_text}>
+                  {restaurantData?.data?.deliveryDuration}
+                </p>
+                <BsDot />
+                <p
+                  className={
+                    defaultStyle.min_order_text
+                  }>{`$${restaurantData?.data?.minOrderVal} min order`}</p>
+              </div>
             </div>
           </div>
-          {restaurantData?.data?.menuType &&
-            Object.keys(restaurantData?.data?.menuType).length > 0 &&
-            Object.entries(restaurantData?.data?.menuType as object).map(
-              (item, _index) => (
-                <div key={_index}>
-                  <h3 className={defaultStyle.menu_title}>{item[0]}</h3>
-                  {item[1].map((menu: MenuItemsType, _index: string) => (
-                    <div
-                      onClick={() =>
-                        navigate(
-                          `${routePaths.personalFood}/${menu._id}?restaurantId=${restaurantData.data._id}&category=${item[0]}`
-                        )
-                      }
-                      key={_index}>
-                      <RestaurantMenuCard
-                        description={menu.description as string}
-                        name={menu.name as string}
-                        price={menu.price as string}
-                        imageUrl={menu.imageUrl as string}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )
-            )}
-          {/* {restaurantData?.data.menuType ? (
+
+          {restaurantData?.data?.menu ? (
             <div className={defaultStyle.menu_card}>
-              {restaurantData?.data.menuType.map((item, _index) => (
-                <RestaurantMenuCard key={_index} />
+              {restaurantData?.data.menu.map((item, _index) => (
+                <div key={_index}>
+                  <h4 className={defaultStyle.menu_name}>{item.category}</h4>
+                  <div className={defaultStyle.menu_card_list}>
+                    {item?.items.length > 0 ? (
+                      item?.items.map((food, foodIndex) => (
+                        <div
+                          key={foodIndex}
+                          onClick={() =>
+                            navigate(
+                              `${routePaths.personalFood}/${food._id}?restaurantId=${restaurantData?.data?._id}&category=${item.category}`
+                            )
+                          }>
+                          <RestaurantMenuCard
+                            description={food.description}
+                            imageUrl={food.imageUrl}
+                            name={food.name}
+                            price={food.price}
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <div className={defaultStyle.empty_menu_card}>
+                        <RiShoppingCartLine
+                          size={25}
+                          color={colorTheme.primary_accent}
+                        />
+                        <h3 className={defaultStyle.empty_menu_text}>
+                          Menu is Empty
+                        </h3>
+                      </div>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
             <h5>Something went wrong</h5>
-          )} */}
+          )}
         </div>
       </MaxWidthLayout>
     </>

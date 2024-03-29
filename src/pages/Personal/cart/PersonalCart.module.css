@@ -1,0 +1,142 @@
+.main_layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .main_layout {
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .main_layout {
+    padding: 30px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main_layout {
+    padding: 40px;
+  }
+}
+
+.main_title {
+  color: var(--black);
+  font-size: 20px;
+  font-weight: 750;
+  font-family: var(--ff_Nunito);
+}
+
+.content_layout {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 900px) {
+  .content_layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+
+.menu_container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.payment_container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 900px) {
+  .payment_container {
+    width: 80%;
+  }
+}
+
+.cart_list {
+  list-style-type: none;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: var(--primary_border);
+  padding: 10px;
+  gap: 30px;
+  margin-top: 0px;
+}
+@media screen and (min-width: 600px) {
+  .cart_list {
+    padding: 15px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .cart_list {
+    padding: 20px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .cart_list {
+    padding: 25px;
+  }
+}
+
+.cart_list_item {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart_menu_item_underline {
+  height: 100%;
+  width: 100%;
+  border: solid var(--secondary_border) 1px;
+}
+
+.menu_title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.add_more_card {
+  height: auto;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.add_more_text {
+  color: var(--primary_accent);
+  font-size: 15px;
+  font-family: var(--ff_Nunito);
+  font-weight: 750;
+}
+@media screen and (min-width: 600px) {
+  .add_more_text {
+    font-size: 16px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .add_more_text {
+    font-size: 17px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .add_more_text {
+    font-size: 18px;
+  }
+}

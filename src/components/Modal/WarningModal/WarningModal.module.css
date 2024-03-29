@@ -1,0 +1,58 @@
+.main_layout {
+  height: auto;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title_close_btn_card {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.description {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-size: 20px;
+  font-weight: 700;
+  width: 300px;
+}
+
+.btn_card {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  gap: 20px;
+}
+
+.sure_btn {
+  height: 35px;
+  width: auto;
+  border-style: none;
+  border-radius: 10px;
+  background-color: var(--primary_accent);
+  padding-left: 20px;
+  padding-right: 20px;
+  color: var(--white);
+  font-family: var(--ff_Nunito);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.cancel_btn {
+  height: 35px;
+  width: auto;
+  border-style: solid;
+  border-color: var(--primary_accent);
+  border-width: 1px;
+  border-radius: 10px;
+  background-color: var(--primary_card_bg);
+  padding-left: 20px;
+  padding-right: 20px;
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-weight: 600;
+  font-size: 16px;
+}

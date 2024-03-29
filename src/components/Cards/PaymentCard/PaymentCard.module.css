@@ -1,0 +1,78 @@
+.main_layout {
+  height: auto;
+  width: 100%;
+  border: solid 1px var(--primary_border);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.title {
+  color: var(--black);
+  font-family: var(--ff_Nunito);
+  font-weight: 800;
+  font-size: 20px;
+  margin: 0px;
+}
+
+.summary_card {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.justify_content {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.light_title {
+  color: var(--light_black_200);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+}
+
+.light_price {
+  color: var(--light_black);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+}
+
+.highlight_title {
+  color: var(--black);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+}
+
+.highlight_price {
+  color: var(--primary_accent);
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--ff_Nunito);
+  margin: 0px;
+}
+
+.btn {
+  height: 40px;
+  width: 100%;
+  border-radius: 7px;
+  border-style: none;
+  background-color: var(--primary_accent);
+  color: var(--constant_white);
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--ff_Nunito);
+  cursor: pointer;
+}

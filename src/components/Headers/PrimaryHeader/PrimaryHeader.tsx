@@ -15,35 +15,49 @@ import { IoClose } from "react-icons/io5";
 //assets
 import profilePic from "@assets/profile.jpg";
 import colorTheme from "@constants/colorTheme";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import routePaths from "@constants/routePaths";
+import { useAppSelector } from "../../../redux/store/store";
 
-const navList = ["Restaurant", "Deals", "My orders"];
+const navList = ["Restaurant", "My orders"];
 
 //React Element
 const PrimaryHeader = (): React.ReactElement => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
 
+  /** redux */
+  const { cartList } = useAppSelector((state) => state.cart);
+  console.log(cartList);
+
+  const navigate = useNavigate();
+
   return (
     <div className={defaultStyle.main_layout}>
       <div className={defaultStyle.sub_layout}>
-        <div className={defaultStyle.title_card}>
+        <div
+          className={defaultStyle.title_card}
+          onClick={() => navigate(routePaths.personalHome)}>
           <DefaultTitle />
         </div>
         <ul className={defaultStyle.header_list}>
           <li className={defaultStyle.nav_card_layout}>
             <nav className={defaultStyle.nav_card}>
-              {navList.map((item, _index) => (
-                <NavLink
-                  to={"/"}
-                  key={_index}
-                  className={defaultStyle.nav_link}>
-                  <p className={defaultStyle.nav_text}>{item}</p>
-                </NavLink>
-              ))}
+              <NavLink
+                to={routePaths.personalHome}
+                className={defaultStyle.nav_link}>
+                <p className={defaultStyle.nav_text}>Restaurants</p>
+              </NavLink>
             </nav>
           </li>
           <li className={defaultStyle.shop_icon_card}>
-            <RiShoppingBag3Line size={20} color={colorTheme.primary_accent} />
+            <RiShoppingBag3Line
+              className={defaultStyle.shop_icon}
+              color={colorTheme.primary_accent}
+              onClick={() => navigate(routePaths.personalCart)}
+            />
+            {cartList?.length ? (
+              <p className={defaultStyle.badge}>{cartList?.length}</p>
+            ) : null}
           </li>
           <li className={defaultStyle.profile_card}>
             <img
@@ -64,14 +78,11 @@ const PrimaryHeader = (): React.ReactElement => {
           {isMenuOpen && (
             <li className={defaultStyle.menu_icon_items_card}>
               <nav className={defaultStyle.menu_nav_card}>
-                {navList.map((item, _index) => (
-                  <NavLink
-                    to={"/"}
-                    key={_index}
-                    className={defaultStyle.nav_link}>
-                    <p className={defaultStyle.menu_nav_text}>{item}</p>
-                  </NavLink>
-                ))}
+                <NavLink
+                  to={routePaths.personalHome}
+                  className={defaultStyle.nav_link}>
+                  <p className={defaultStyle.menu_nav_text}>Restaurants</p>
+                </NavLink>
               </nav>
             </li>
           )}

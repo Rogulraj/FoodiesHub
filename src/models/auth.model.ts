@@ -9,5 +9,6 @@ export interface CreateUserResponse {
 export interface LoginUserResponse {
   _id: string;
   email: string;
+  accountType: string;
   tokenData: TokenData;
 }

@@ -3,3 +3,7 @@ export interface CommonResponse<DataType> {
   data: DataType;
   message: string;
 }
+
+export interface IdResponse {
+  _id: string;
+}

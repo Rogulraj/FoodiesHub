@@ -12,6 +12,7 @@ import { routePropsType } from "./types/routeProps.type";
 import ProtectedRoute from "@components/Wrappers/ProtectedRoute/ProtectedRoute";
 import PersonalRestaurant from "@pages/Personal/PersonalRestaurant/PersonalRestaurant";
 import PersonalFood from "@pages/Personal/Food/PersonalFood";
+import PersonalCart from "@pages/Personal/cart/PersonalCart";
 
 //routes
 const personalRoutes: routePropsType[] = [
@@ -23,13 +24,29 @@ const personalRoutes: routePropsType[] = [
       </ProtectedRoute>
     ),
   },
+
   {
     path: "restaurant/:id",
-    element: <PersonalRestaurant />,
+
+    element: (
+      <ProtectedRoute>
+        <PersonalRestaurant />
+      </ProtectedRoute>
+    ),
   },
+
   {
     path: "restaurant/food/:id",
-    element: <PersonalFood />,
+    element: (
+      <ProtectedRoute>
+        <PersonalFood />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "restaurant/cart",
+    element: <PersonalCart />,
   },
 
   {

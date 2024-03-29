@@ -10,8 +10,8 @@ import { ModalType } from "@pages/Restaurant/Menu/RestaurantMenu";
 
 export interface MenuTypeBtnCardPropsType {
   title: string;
-  openModal: (type: ModalType["type"]) => void;
-  modalType: ModalType["type"];
+  openModal: (type: ModalType, data: object) => void;
+  modalType: ModalType;
 }
 
 const MenuTypeBtnCard = ({
@@ -22,7 +22,7 @@ const MenuTypeBtnCard = ({
   return (
     <div
       className={defaultStyle.main_layout}
-      onClick={() => openModal(modalType)}>
+      onClick={() => openModal(modalType, {})}>
       <FaCirclePlus size={25} fill={colorTheme.primary_border} />
       <h4 className={defaultStyle.title}>{title}</h4>
     </div>

@@ -22,11 +22,29 @@
 }
 
 .back_btn_card {
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 7px;
+  cursor: pointer;
+}
+
+.back_icon {
+  height: 20px;
+  width: 20px;
+}
+@media screen and (min-width: 900px) {
+  .back_icon {
+    height: 25px;
+    width: 25px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .back_icon {
+    height: 28px;
+    width: 28px;
+  }
 }
 
 .back_btn_text {
@@ -34,6 +52,16 @@
   font-family: var(--ff_Nunito);
   font-size: 14px;
   font-weight: 600;
+}
+@media screen and (min-width: 900px) {
+  .back_btn_text {
+    font-size: 16px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .back_btn_text {
+    font-size: 18px;
+  }
 }
 
 .image_card {
@@ -150,4 +178,11 @@
 
 .nutrition_card {
   margin-top: 25px;
+}
+
+.quantity_text {
+  color: var(--black);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--ff_Nunito);
 }

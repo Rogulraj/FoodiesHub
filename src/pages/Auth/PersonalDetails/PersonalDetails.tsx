@@ -149,7 +149,6 @@ const PersonalDetails = (): React.ReactElement => {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (
     event
   ): Promise<void> => {
@@ -184,7 +183,6 @@ const PersonalDetails = (): React.ReactElement => {
       dispatch(
         signupActions.handleAllData({
           email: emailRef.current?.value,
-          password: passwordRef.current?.value,
           _id: createUserData.data._id,
         })
       );

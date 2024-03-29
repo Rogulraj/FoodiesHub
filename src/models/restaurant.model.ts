@@ -1,17 +1,19 @@
 import { RestaurantTagsList } from "@constants/restaurant";
 
-export interface MenuItemsType {
+export interface MenuCategoryItems {
   _id?: string;
-  name?: string;
-  imageUrl?: string;
-  price?: string;
-  description?: string;
-  ingredients?: string;
-  nutritions?: string;
+  name: string;
+  imageUrl: string;
+  price: number;
+  description: string;
+  ingredients: string;
+  nutritions: string;
 }
 
 export interface MenuType {
-  [key: string]: MenuItemsType[];
+  _id?: string;
+  category: string;
+  items: MenuCategoryItems[];
 }
 
 export interface RestaurantModel {
@@ -21,15 +23,28 @@ export interface RestaurantModel {
   deliveryDuration: string;
   minOrderVal: number;
   tags: RestaurantTagsList;
-  menuType?: MenuType;
+  menu: MenuType[];
 }
 
-export interface CreateMenuTypeModels {
-  type: string;
+export interface CreateMenuCategoryModels {
+  category: string;
 }
 export interface CreateMenuItemModels {
-  type: string;
-  item?: MenuItemsType;
+  category: string;
+  item?: MenuCategoryItems;
 }
 
 export interface CreateRestaurantModels extends RestaurantModel {}
+
+export interface UpdateFoodByIdModel {
+  foodId: string;
+  restaurantId: string;
+  categoryId: string;
+  item: MenuCategoryItems;
+}
+
+export interface RemoveFoodByIdModel {
+  foodId: string;
+  restaurantId: string;
+  categoryId: string;
+}

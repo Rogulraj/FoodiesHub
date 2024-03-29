@@ -1,5 +1,5 @@
 //packages
-import React, { FormEvent, MouseEventHandler, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import * as Yup from "yup";
 
@@ -9,13 +9,15 @@ import { ModalType } from "@pages/Restaurant/Menu/RestaurantMenu";
 import { IoClose } from "react-icons/io5";
 import colorTheme from "@constants/colorTheme";
 import { useCreateMenuTypeMutation } from "../../../services/restaurant.service";
-import { CreateMenuTypeModels } from "../../../models/restaurant.model";
+import { CreateMenuCategoryModels } from "../../../models/restaurant.model";
+import { toast } from "react-toastify";
 
 //types
 export interface CategoryFormPropsType {
   isModal: boolean;
-  closeModal: (type: ModalType["type"]) => void;
-  modalType: ModalType["type"];
+  closeModal: (type: ModalType) => void;
+  modalType: ModalType;
+  refetch: () => Promise<void>;
 }
 
 interface RefValues {
@@ -27,12 +29,21 @@ const CreateCategoryForm = ({
   closeModal,
   isModal,
   modalType,
+  refetch,
 }: CategoryFormPropsType) => {
   const categoryRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [validationError, setValidationError] = useState<string[]>([]);
 
-  const [CreateMenu] = useCreateMenuTypeMutation();
+  const [
+    CreateMenu,
+    {
+      data: createMenuData,
+      error: createMenuError,
+      isError: createMenuIsError,
+    },
+  ] = useCreateMenuTypeMutation();
 
   const validationSchema = Yup.object({
     category: Yup.string().required("Enter category"),
@@ -49,6 +60,7 @@ const CreateCategoryForm = ({
     } catch (error) {
       const newErrors: string[] = [];
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       await error?.inner?.map((err: { message: string }) => {
         newErrors.push(err.message);
       });
@@ -71,17 +83,32 @@ const CreateCategoryForm = ({
       const validate = await handleFormValidation(validationData);
 
       if (validate) {
-        const menuType: CreateMenuTypeModels = {
-          type: validationData.category as string,
+        const menuCategory: CreateMenuCategoryModels = {
+          category: validationData.category as string,
         };
-        const response = await CreateMenu(menuType);
-
-        console.log("response = ", response);
+        await CreateMenu(menuCategory);
       }
     } catch (error) {
-      console.log("error = ", error);
+      toast.error("Something went wrong!");
     }
   };
+
+  useEffect(() => {
+    if (createMenuData?.statusCode === 201) {
+      toast.success("Category Added");
+      formRef?.current?.reset();
+      closeModal("category");
+      refetch()
+        .then((val) => val)
+        .catch((error) => console.log(error));
+    } else if (createMenuIsError) {
+      toast.error("Something went wrong!");
+    }
+  }, [createMenuData, createMenuIsError]);
+
+  useEffect(() => {
+    Modal.setAppElement("body");
+  }, []);
 
   return (
     <Modal
@@ -112,7 +139,10 @@ const CreateCategoryForm = ({
             onClick={() => closeModal("category")}
           />
         </div>
-        <form className={defaultStyle.form_card} onSubmit={handleFormSubmit}>
+        <form
+          className={defaultStyle.form_card}
+          ref={formRef}
+          onSubmit={handleFormSubmit}>
           <label htmlFor="category" className={defaultStyle.category_label}>
             Category
           </label>

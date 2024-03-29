@@ -12,7 +12,7 @@ interface RestaurantMenuCardProps {
   name: string;
   imageUrl: string;
   description: string;
-  price: string;
+  price: number;
 }
 
 const RestaurantMenuCard = ({

@@ -24,9 +24,8 @@ import CustomButton from "@components/Elements/CustomButton/CustomButton";
 import { useCreateRestaurantMutation } from "../../../services/restaurant.service";
 import { ConvertToBase64 } from "@helper/base64.helper";
 import { CreateRestaurantModels } from "../../../models/restaurant.model";
-import { restaurantTagsList } from "@constants/restaurant";
-import { usePostSignupMutation } from "../../../services/auth.service";
-import { Navigate, useNavigate } from "react-router-dom";
+import { RestaurantTags, restaurantTagsList } from "@constants/restaurant";
+import { useNavigate } from "react-router-dom";
 import routePaths from "@constants/routePaths";
 
 interface RefValueType {
@@ -34,12 +33,12 @@ interface RefValueType {
   imageUrl: Blob | undefined;
   deliveryDuration: string | undefined;
   minOrderVal: number | undefined;
-  tags: string[];
+  tags: RestaurantTags[];
 }
 
 const RestaurantDetails = (): React.ReactElement => {
   const [imageFile, setImageFile] = useState<Blob>();
-  const [tagsList, setTagsList] = useState<string[]>([]);
+  const [tagsList, setTagsList] = useState<RestaurantTags[]>([]);
   const [validateError, setValidateError] = useState<string[]>([]);
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -50,8 +49,8 @@ const RestaurantDetails = (): React.ReactElement => {
     CreateRestaurant,
     {
       data: createRestaurantData,
-      // error: createRestaurantError,
-      // status: createRestaurantStatus,
+      error: createRestaurantError,
+      isError: isCreateRestaurantError,
     },
   ] = useCreateRestaurantMutation();
   const { accountType, _id } = useAppSelector((state) => state.signup);
@@ -66,8 +65,6 @@ const RestaurantDetails = (): React.ReactElement => {
       .typeError("Enter valid Min. order value"),
     tags: Yup.array().of(Yup.string()).min(1, "Select atleast one tag"),
   });
-
-  console.log(validateError);
 
   const handleValidateSchema = async (
     refValues: RefValueType
@@ -116,17 +113,17 @@ const RestaurantDetails = (): React.ReactElement => {
           deliveryDuration: refValues.deliveryDuration as string,
           minOrderVal: refValues.minOrderVal as number,
           tags: refValues.tags,
-          menuType: {},
+          menu: [],
         };
         const response = await CreateRestaurant(body);
-        console.log("response = ", response);
+        // console.log("response = ", response);
       }
     } catch (error) {
       console.log("err ", error);
     }
   };
 
-  const handleTagsList = (value: string) => {
+  const handleTagsList = (value: RestaurantTags) => {
     const isAlready = tagsList.includes(value);
 
     if (!isAlready) {
@@ -140,9 +137,11 @@ const RestaurantDetails = (): React.ReactElement => {
 
   useEffect(() => {
     if (createRestaurantData?.statusCode === 201) {
-      navigate(routePaths.restaurantHome);
+      navigate(routePaths.login);
+    } else if (isCreateRestaurantError) {
+      console.log("error =>", createRestaurantError);
     }
-  }, [createRestaurantData]);
+  }, [createRestaurantData, isCreateRestaurantError]);
 
   return (
     <MaxWidthLayout>
@@ -153,7 +152,7 @@ const RestaurantDetails = (): React.ReactElement => {
           <div className={defaultStyle.timeline_card}>
             <TimelineBar
               timelineList={timelineList}
-              currentTimeline={timelineList[1].title}
+              currentTimeline={timelineList[2].title}
             />
           </div>
           <h1 className={defaultStyle.title}>Restaurant Details</h1>
@@ -220,7 +219,7 @@ const RestaurantDetails = (): React.ReactElement => {
             <div className={defaultStyle.tag_card}>
               <h4 className={defaultStyle.tag_title}>Select Tags</h4>
               <ul className={defaultStyle.tag_list_card}>
-                {restaurantTagsList.map((item: string, _index) => (
+                {restaurantTagsList.map((item: RestaurantTags, _index) => (
                   <li
                     key={_index}
                     className={`${defaultStyle.tag_list_item} ${
@@ -240,7 +239,7 @@ const RestaurantDetails = (): React.ReactElement => {
               </ul>
             </div>
             <div className={defaultStyle.button_card}>
-              <CustomButton title="Continue" type="submit" variant="primary" />
+              <CustomButton title="Create" type="submit" variant="primary" />
             </div>
             {validateError.length > 0 && (
               <p className={defaultStyle.error_message}>*{validateError[0]}</p>

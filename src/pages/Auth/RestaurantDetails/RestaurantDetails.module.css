@@ -178,6 +178,7 @@
   font-size: 15px;
   font-weight: 600;
   margin: 0px;
+  cursor: pointer;
 }
 
 .active_tag_list_item_text {
