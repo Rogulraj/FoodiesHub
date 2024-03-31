@@ -32,6 +32,8 @@ const PersonalHome = (): React.ReactElement => {
 
   const navigate = useNavigate();
 
+  console.log("restaurant data = ", restaurantData);
+
   return (
     <>
       <CustomHelmet title="Home" />

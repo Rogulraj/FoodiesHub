@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  width: fit-content;
+  height: auto;
 }
 
 .title1 {
@@ -18,6 +20,7 @@
   font-size: 20px;
   color: var(--primary_accent);
   font-weight: 750;
+  margin: 0px;
   margin-top: -5px;
 }
 
@@ -27,6 +30,7 @@
   }
   .title2 {
     font-size: 25px;
+    margin-top: -8px;
   }
 }
 
@@ -45,5 +49,29 @@
   }
   .title2 {
     font-size: 30px;
+  }
+}
+
+.for_owners_text {
+  color: var(--light_white);
+  font-size: 14px;
+  font-family: var(--ff_Nunito);
+  font-weight: 700;
+  margin: 0px;
+}
+@media screen and (min-width: 600px) {
+  .for_owners_text {
+    font-size: 15px;
+    margin-top: -8px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .for_owners_text {
+    font-size: 16px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .for_owners_text {
+    font-size: 17px;
   }
 }

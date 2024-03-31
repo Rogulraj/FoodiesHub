@@ -1,6 +1,6 @@
 //packages
 import CustomHelmet from "@components/Elements/CustomHelmet/CustomHelmet";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //components
 import MenuTypeCard from "@components/Cards/MenuTypeCard/MenuTypeCard";
@@ -11,20 +11,26 @@ import CreateMealForm from "@components/Form/CreateMealForm/CreateMealForm";
 //css
 import defaultStyle from "./RestaurantMenu.module.css";
 import CreateCategoryForm from "@components/Form/CreateCategoryForm/CreateCategoryForm";
-import { useGetAllMenuItemsQuery } from "../../../services/restaurant.service";
+import {
+  useGetAllMenuItemsQuery,
+  useGetRestaurantByIdQuery,
+} from "../../../services/restaurant.service";
 import { MenuType } from "src/models/restaurant.model";
 import { toast } from "react-toastify";
 import { FaPlus, FaPlusCircle } from "react-icons/fa";
 import colorTheme from "@constants/colorTheme";
 import CustomIconButton from "@components/Elements/CustomIconButton/CustomIconButton";
 import ModifyMealForm from "@components/Form/ModifyMealForm/ModifyMealForm";
+import { GetCookies } from "@helper/cookies.helper";
+import { useAppDispatch } from "../../../redux/store/store";
+import { userDetailsActions } from "../../../redux/features/userDetails.slice";
 
-const categoryCard = [
-  { title: "Breakfast menu", total: 17 },
-  { title: "Lunch menu", total: 15 },
-  { title: "Dinner menu", total: 16 },
-  { title: "Drinks menu", total: 12 },
-];
+// const categoryCard = [
+//   { title: "Breakfast menu", total: 17 },
+//   { title: "Lunch menu", total: 15 },
+//   { title: "Dinner menu", total: 16 },
+//   { title: "Drinks menu", total: 12 },
+// ];
 
 // types
 export type ModalType = "category" | "meal";
@@ -37,11 +43,21 @@ const RestaurantMenu = (): React.ReactElement => {
   }>({ isOpen: false, type: "category" });
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
+  const restaurantId = GetCookies("restaurantId");
+
+  // const {
+  //   data: menuData,
+  //   error: menuError,
+  //   refetch: GetMenuItemsRefetch,
+  // } = useGetAllMenuItemsQuery("");
+
   const {
-    data: menuData,
-    error: menuError,
-    refetch: GetMenuItemsRefetch,
-  } = useGetAllMenuItemsQuery("");
+    data: restaurantData,
+    isError: isRestaurantFetchError,
+    refetch: GetRestaurantByIdRefetch,
+  } = useGetRestaurantByIdQuery({ id: restaurantId as string });
+
+  const dispatch = useAppDispatch();
 
   const closeModal = (type: ModalType): void => {
     setModal({ isOpen: false, type });
@@ -53,14 +69,25 @@ const RestaurantMenu = (): React.ReactElement => {
 
   const handleRefetch = async () => {
     try {
-      await GetMenuItemsRefetch();
+      await GetRestaurantByIdRefetch();
       setSelectedCategory(0);
     } catch (error) {
       toast.error("Something went wrong!");
     }
   };
 
-  console.log(menuData);
+  useEffect(() => {
+    if (restaurantData?.statusCode === 200) {
+      dispatch(
+        userDetailsActions.handleData({
+          name: restaurantData.data.name,
+          imageUrl: restaurantData.data.imageUrl,
+        })
+      );
+    } else if (isRestaurantFetchError) {
+      toast.error("Something went wrong!");
+    }
+  }, [restaurantData, isRestaurantFetchError]);
 
   return (
     <>
@@ -68,9 +95,10 @@ const RestaurantMenu = (): React.ReactElement => {
       <div className={defaultStyle.main_layout}>
         <div className={defaultStyle.category_menu_container}>
           <h3 className={defaultStyle.title}>Category menu</h3>
-          {menuData !== undefined && menuData.data.length > 0 ? (
+          {restaurantData !== undefined &&
+          restaurantData.data.menu.length > 0 ? (
             <ul className={defaultStyle.category_card}>
-              {menuData?.data.map((item, _index) => (
+              {restaurantData?.data.menu.map((item, _index) => (
                 <li
                   key={_index}
                   onClick={() => setSelectedCategory(_index)}
@@ -106,19 +134,23 @@ const RestaurantMenu = (): React.ReactElement => {
         </div>
         <div className={defaultStyle.menu_item_container}>
           <h3 className={defaultStyle.title}>
-            {menuData?.data[selectedCategory]?.category}
+            {restaurantData?.data.menu[selectedCategory]?.category}
           </h3>
-          {menuData !== undefined &&
-          menuData?.data[selectedCategory]?.items?.length > 0 ? (
+          {restaurantData !== undefined &&
+          restaurantData?.data.menu[selectedCategory]?.items?.length > 0 ? (
             <ul className={defaultStyle.menu_item_card}>
-              {menuData?.data[selectedCategory]?.items?.map((item, _index) => (
-                <MenuItemCard
-                  key={_index}
-                  {...item}
-                  categoryId={menuData?.data[selectedCategory]._id as string}
-                  refetch={handleRefetch}
-                />
-              ))}
+              {restaurantData?.data.menu[selectedCategory]?.items?.map(
+                (item, _index) => (
+                  <MenuItemCard
+                    key={_index}
+                    {...item}
+                    categoryId={
+                      restaurantData?.data.menu[selectedCategory]._id as string
+                    }
+                    refetch={handleRefetch}
+                  />
+                )
+              )}
             </ul>
           ) : (
             <div className={defaultStyle.no_data_card}>
@@ -138,7 +170,7 @@ const RestaurantMenu = (): React.ReactElement => {
           isModal={modal.isOpen}
           modalType={modal.type}
           refetch={handleRefetch}
-          menuList={menuData?.data as MenuType[]}
+          menuList={restaurantData?.data.menu as MenuType[]}
         />
       </div>
     </>

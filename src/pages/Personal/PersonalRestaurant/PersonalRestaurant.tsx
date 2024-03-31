@@ -45,7 +45,7 @@ const PersonalRestaurant = () => {
           <div className={defaultStyle.profile_card}>
             <div className={defaultStyle.profile_image_card}>
               <img
-                src={pic}
+                src={restaurantData?.data.imageUrl}
                 alt="profile"
                 className={defaultStyle.profile_image_style}
               />

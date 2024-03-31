@@ -1,5 +1,5 @@
 export const ConvertToBase64 = async (file: Blob | string): Promise<string> => {
-  if (typeof file === "string") return file;
+  if (typeof file === "string") return "null";
 
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

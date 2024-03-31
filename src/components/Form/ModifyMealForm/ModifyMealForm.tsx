@@ -50,7 +50,7 @@ const ModifyMealForm: FC<ModifyMealFormProps> = ({
   foodItem,
   refetch,
 }) => {
-  const [imageFile, setImageFile] = useState<Blob | string>("");
+  const [imageFile, setImageFile] = useState<Blob | string>(foodItem.imageUrl);
   const [name, setName] = useState<string>(foodItem.name);
   const [price, setPrice] = useState<number>(foodItem.price);
   const [description, setDescription] = useState<string>(foodItem.description);
@@ -116,7 +116,6 @@ const ModifyMealForm: FC<ModifyMealFormProps> = ({
         });
       }
     } catch (error) {
-      console.log(error);
       toast.error("Something went wrong!");
     }
   };
@@ -162,7 +161,7 @@ const ModifyMealForm: FC<ModifyMealFormProps> = ({
       ariaHideApp={false}>
       <div className={defaultStyle.main_layout}>
         <div className={defaultStyle.title_card}>
-          <h4 className={defaultStyle.title}>Create meal item</h4>
+          <h4 className={defaultStyle.title}>Modify meal item</h4>
           <IoClose
             size={30}
             color={colorTheme.light_white}
@@ -177,9 +176,15 @@ const ModifyMealForm: FC<ModifyMealFormProps> = ({
                 htmlFor="image-file"
                 className={defaultStyle.image_file_label}>
                 <FaPlus size={15} color={colorTheme.light_white} />
-                {typeof imageFile !== "string" && (
+                {typeof imageFile !== "string" ? (
                   <img
                     src={URL.createObjectURL(imageFile)}
+                    alt="selected-img"
+                    className={defaultStyle.selected_image_style}
+                  />
+                ) : (
+                  <img
+                    src={imageFile}
                     alt="selected-img"
                     className={defaultStyle.selected_image_style}
                   />

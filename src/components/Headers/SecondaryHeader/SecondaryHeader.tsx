@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 //css
-import defaultStyle from "./PrimaryHeader.module.css";
+import defaultStyle from "./SecondaryHeader.module.css";
 
 //components
 import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
@@ -21,7 +21,7 @@ import { useAppSelector } from "../../../redux/store/store";
 import PersonalInformationForm from "@components/Form/PersonalInformationForm/PersonalInformationForm";
 
 //React Element
-const PrimaryHeader = (): React.ReactElement => {
+const SecondaryHeader = (): React.ReactElement => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
   const [isPersonalInformationModal, setIsPersonalInformationModal] =
     useState<boolean>(false);
@@ -32,7 +32,7 @@ const PrimaryHeader = (): React.ReactElement => {
 
   const navigate = useNavigate();
 
-  function closeModal(): void {
+  function closePersonalInformationModal(): void {
     setIsPersonalInformationModal(false);
   }
 
@@ -42,13 +42,13 @@ const PrimaryHeader = (): React.ReactElement => {
         <div
           className={defaultStyle.title_card}
           onClick={() => navigate(routePaths.personalHome)}>
-          <DefaultTitle variant="personal" />
+          <DefaultTitle variant="restaurant" />
         </div>
         <ul className={defaultStyle.header_list}>
           <li className={defaultStyle.nav_card_layout}>
             <nav className={defaultStyle.nav_card}>
               <NavLink
-                to={routePaths.personalHome}
+                to={routePaths.restaurantHome}
                 className={defaultStyle.nav_link}>
                 <p className={defaultStyle.nav_text}>Restaurants</p>
               </NavLink>
@@ -86,7 +86,7 @@ const PrimaryHeader = (): React.ReactElement => {
             <li className={defaultStyle.menu_icon_items_card}>
               <nav className={defaultStyle.menu_nav_card}>
                 <NavLink
-                  to={routePaths.personalHome}
+                  to={routePaths.restaurantHome}
                   className={defaultStyle.nav_link}>
                   <p className={defaultStyle.menu_nav_text}>Restaurants</p>
                 </NavLink>
@@ -97,10 +97,10 @@ const PrimaryHeader = (): React.ReactElement => {
       </div>
       <PersonalInformationForm
         isModal={isPersonalInformationModal}
-        closeModal={closeModal}
+        closeModal={closePersonalInformationModal}
       />
     </div>
   );
 };
 
-export default PrimaryHeader;
+export default SecondaryHeader;

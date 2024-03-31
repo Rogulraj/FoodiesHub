@@ -14,8 +14,10 @@ export function SetCookies(
   Cookies.set(key, stringifyValue, { expires });
 }
 
-export function GetCookies(key: CookiesKeys): any {
+export function GetCookies(
+  key: CookiesKeys
+): Partial<string | number | object | undefined> {
   const value = Cookies.get(key);
   if (!value) return undefined;
-  return JSON.parse(value);
+  return JSON.parse(value) as string | number | object;
 }
