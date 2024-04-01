@@ -186,7 +186,7 @@ const PersonalDetails = (): React.ReactElement => {
           _id: createUserData.data._id,
         })
       );
-      if (accountType === "personal") navigate(routePaths.login);
+      if (accountType === "personal") navigate(routePaths.additionalInfo);
       else if (accountType === "restaurant")
         navigate(routePaths.restaurantDetails);
     }

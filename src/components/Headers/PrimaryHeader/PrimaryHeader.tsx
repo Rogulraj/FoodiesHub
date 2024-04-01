@@ -18,7 +18,7 @@ import colorTheme from "@constants/colorTheme";
 import { NavLink, useNavigate } from "react-router-dom";
 import routePaths from "@constants/routePaths";
 import { useAppSelector } from "../../../redux/store/store";
-import PersonalInformationForm from "@components/Form/PersonalInformationForm/PersonalInformationForm";
+// import PersonalInformationUpdateForm from "@components/Form/RestaurantDetailsUpdateForm/RestaurantDetailsUpdateForm";
 
 //React Element
 const PrimaryHeader = (): React.ReactElement => {
@@ -68,7 +68,7 @@ const PrimaryHeader = (): React.ReactElement => {
             className={defaultStyle.profile_card}
             onClick={() => setIsPersonalInformationModal(true)}>
             <img
-              src={profilePic}
+              src={userDetails.imageUrl}
               alt="profile"
               className={defaultStyle.profile_pic}
             />
@@ -95,10 +95,10 @@ const PrimaryHeader = (): React.ReactElement => {
           )}
         </ul>
       </div>
-      <PersonalInformationForm
+      {/* <PersonalInformationUpdateForm
         isModal={isPersonalInformationModal}
         closeModal={closeModal}
-      />
+      /> */}
     </div>
   );
 };

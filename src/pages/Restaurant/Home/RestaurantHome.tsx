@@ -16,12 +16,9 @@ const RestaurantHome = (): React.ReactElement => {
   return (
     <>
       <CustomHelmet title="Home" />
-      <SecondaryHeader />
-      <MaxWidthLayout>
-        <div className={defaultStyle.main_layout}>
-          <RestaurantMenu />
-        </div>
-      </MaxWidthLayout>
+      <div className={defaultStyle.main_layout}>
+        <RestaurantMenu />
+      </div>
     </>
   );
 };

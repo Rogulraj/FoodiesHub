@@ -64,6 +64,20 @@ export const restaurantApi = createApi({
       }),
     }),
 
+    // update restaurant
+    updateRestaurant: builder.mutation<
+      CommonResponse<IdResponse>,
+      Partial<RestaurantModel>
+    >({
+      query: (userData) => ({
+        url: "/update",
+        headers: { Authorization: `Bearer ${GetSessionToken()}` },
+        timeout: 5000,
+        body: userData,
+        method: "PUT",
+      }),
+    }),
+
     // create menu type
     createMenuType: builder.mutation<
       CommonResponse<string>,
@@ -159,6 +173,7 @@ export const {
   useGetAllRestaurantsQuery,
   useGetRestaurantByIdQuery,
   useCreateRestaurantMutation,
+  useUpdateRestaurantMutation,
   useCreateMenuTypeMutation,
   useCreateMenuItemMutation,
   useGetAllMenuItemsQuery,

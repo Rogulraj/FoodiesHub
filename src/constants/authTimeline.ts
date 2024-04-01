@@ -11,6 +11,7 @@ export default authTimelineList;
 export const personalTimelineList: TimelineListType[] = [
   { title: "Account Type" },
   { title: "Personal Details" },
+  { title: "Additional Info" },
 ];
 
 export const restaurantTimelineList: TimelineListType[] = [

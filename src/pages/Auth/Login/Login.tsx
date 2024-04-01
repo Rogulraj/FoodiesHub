@@ -184,17 +184,18 @@ const Login = (): React.ReactElement => {
       );
       const tokenData: TokenData = loginResponse.data.tokenData;
       SetSessionToken(tokenData);
-      SetCookies("restaurantId", loginResponse.data._id);
 
       if (loginResponse.data.accountType === "personal") {
+        SetCookies("personalId", loginResponse.data._id);
         navigate(routePaths.personalHome, { replace: true });
       } else if (loginResponse.data.accountType === "restaurant") {
+        SetCookies("restaurantId", loginResponse.data._id);
         navigate(routePaths.restaurantHome, { replace: true });
       }
     } else if (isLoginError) {
       console.log("login error = ", isLoginError, loginError);
 
-      toast.warning(loginError?.data?.message as string);
+      toast.warning("something went wrong!");
     }
   }, [loginResponse, isLoginError]);
 
@@ -203,7 +204,7 @@ const Login = (): React.ReactElement => {
       <div className={defaultStyle.main_layout}>
         <CustomHelmet title="Login" />
         <div>
-          <DefaultTitle />
+          <DefaultTitle variant="personal" />
           <div className={defaultStyle.title_card}>
             <h1 className={defaultStyle.title}>Login</h1>
             <p className={defaultStyle.paragraph}>

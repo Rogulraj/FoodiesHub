@@ -22,6 +22,7 @@ export class YupFormValidator {
   public async validate(): Promise<boolean> {
     try {
       await this.schema.validate(this.data, { abortEarly: false });
+      this.errorSetter([]);
       return true;
     } catch (error) {
       const validationErrors: string[] = [];

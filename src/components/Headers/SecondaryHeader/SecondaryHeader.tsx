@@ -13,17 +13,22 @@ import { LuMenu } from "react-icons/lu";
 import { IoClose } from "react-icons/io5";
 
 //assets
-import profilePic from "@assets/profile.jpg";
 import colorTheme from "@constants/colorTheme";
 import { NavLink, useNavigate } from "react-router-dom";
 import routePaths from "@constants/routePaths";
 import { useAppSelector } from "../../../redux/store/store";
-import PersonalInformationForm from "@components/Form/PersonalInformationForm/PersonalInformationForm";
+import RestaurantDetailsUpdateForm from "@components/Form/RestaurantDetailsUpdateForm/RestaurantDetailsUpdateForm";
+
+interface SecondaryHeaderProps {
+  refetch?: () => Promise<void>;
+}
 
 //React Element
-const SecondaryHeader = (): React.ReactElement => {
+const SecondaryHeader = ({
+  refetch,
+}: SecondaryHeaderProps): React.ReactElement => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
-  const [isPersonalInformationModal, setIsPersonalInformationModal] =
+  const [isRestaurantDetailsModal, setIsRestaurantDetailsModal] =
     useState<boolean>(false);
 
   /** redux */
@@ -33,7 +38,7 @@ const SecondaryHeader = (): React.ReactElement => {
   const navigate = useNavigate();
 
   function closePersonalInformationModal(): void {
-    setIsPersonalInformationModal(false);
+    setIsRestaurantDetailsModal(false);
   }
 
   return (
@@ -66,9 +71,9 @@ const SecondaryHeader = (): React.ReactElement => {
           </li>
           <li
             className={defaultStyle.profile_card}
-            onClick={() => setIsPersonalInformationModal(true)}>
+            onClick={() => setIsRestaurantDetailsModal(true)}>
             <img
-              src={profilePic}
+              src={userDetails.imageUrl}
               alt="profile"
               className={defaultStyle.profile_pic}
             />
@@ -95,9 +100,10 @@ const SecondaryHeader = (): React.ReactElement => {
           )}
         </ul>
       </div>
-      <PersonalInformationForm
-        isModal={isPersonalInformationModal}
+      <RestaurantDetailsUpdateForm
+        isModal={isRestaurantDetailsModal}
         closeModal={closePersonalInformationModal}
+        refetch={refetch}
       />
     </div>
   );

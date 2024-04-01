@@ -1,35 +1,101 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  FormEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Modal from "react-modal";
+import * as Yup from "yup";
 
 //css
-import defaultStyle from "./PersonalInformationForm.module.css";
+import defaultStyle from "./RestaurantDetailsUpdateForm.module.css";
 import colorTheme from "@constants/colorTheme";
 import { IoClose } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 import { useAppSelector } from "../../../redux/store/store";
+import { toast } from "react-toastify";
+import { YupFormValidator } from "@utils/yupFormValidator";
+import { string } from "yup";
+import { ConvertToBase64 } from "@helper/base64.helper";
+import { useUpdateRestaurantMutation } from "../../../services/restaurant.service";
 
-interface PersonalInformationFormProps {
+interface RestaurantDetailsUpdateForm {
   isModal: boolean;
   closeModal: () => void;
   refetch?: () => Promise<void>;
 }
 
-const PersonalInformationForm = ({
+const yupValidationSchema = Yup.object({
+  name: Yup.string().required("Enter name"),
+  imageUrl: Yup.string().required("Please select image"),
+});
+
+const RestaurantDetailsUpdateForm = ({
   closeModal,
   isModal,
   refetch,
-}: PersonalInformationFormProps) => {
+}: RestaurantDetailsUpdateForm) => {
   const userDetails = useAppSelector((state) => state.userDetails);
   const formRef = useRef<HTMLFormElement>(null);
   const [imageFile, setImageFile] = useState<Blob | string>("");
   const [name, setName] = useState<string>("");
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
-  const handleFormSubmit = () => {};
+  const [
+    UpdateRestaurant,
+    { data: updateRestaurantData, isError: isUpdateRestaurantError },
+  ] = useUpdateRestaurantMutation();
+
+  const validationErrorSetter = (errors: string[]) => {
+    setValidationErrors(errors);
+  };
+
+  const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (
+    event
+  ): Promise<void> => {
+    event.preventDefault();
+    try {
+      const base64Image = await ConvertToBase64(imageFile);
+
+      const validationData = {
+        name,
+        imageUrl: base64Image,
+      };
+      const yupValidation = new YupFormValidator(
+        yupValidationSchema,
+        validationData,
+        validationErrorSetter
+      );
+
+      const validate = await yupValidation.validate();
+      if (validate) {
+        await UpdateRestaurant(validationData);
+      }
+    } catch (error) {
+      toast.error("something went wrong!");
+    }
+  };
 
   useEffect(() => {
     setName(userDetails.name);
     setImageFile(userDetails.imageUrl);
   }, [userDetails]);
+
+  useEffect(() => {
+    if (updateRestaurantData?.statusCode === 200) {
+      toast.success("Restaurant updated");
+      formRef.current?.reset();
+      closeModal();
+      if (refetch) {
+        refetch()
+          .then((val) => val)
+          .catch(() => toast.warning("Refresh the page"));
+      }
+    } else if (isUpdateRestaurantError) {
+      toast.warning("Restaurant not updated!");
+    }
+  }, [updateRestaurantData, isUpdateRestaurantError]);
 
   useEffect(() => {
     Modal.setAppElement("body");
@@ -112,6 +178,9 @@ const PersonalInformationForm = ({
               </div>
             </div>
           </div>
+          {validationErrors.length > 0 && (
+            <p className={defaultStyle.error_message}>*{validationErrors[0]}</p>
+          )}
           <div className={defaultStyle.button_card}>
             <button
               type="button"
@@ -132,4 +201,4 @@ const PersonalInformationForm = ({
   );
 };
 
-export default PersonalInformationForm;
+export default RestaurantDetailsUpdateForm;

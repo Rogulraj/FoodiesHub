@@ -5,6 +5,7 @@ import { authApiSlice } from "../../services/auth.service";
 import { restaurantApi } from "../../services/restaurant.service";
 import cartSliceReducer from "../features/cart.slice";
 import { userDetailsReducer } from "../features/userDetails.slice";
+import { personalUserDetailsApi } from "../../services/personalUserDetails.service";
 
 const store = configureStore({
   reducer: {
@@ -13,12 +14,14 @@ const store = configureStore({
     userDetails: userDetailsReducer,
     [authApiSlice.reducerPath]: authApiSlice.reducer,
     [restaurantApi.reducerPath]: restaurantApi.reducer,
+    [personalUserDetailsApi.reducerPath]: personalUserDetailsApi.reducer,
   },
 
   middleware(getDefaultMiddleware) {
     return getDefaultMiddleware().concat(
       authApiSlice.middleware,
-      restaurantApi.middleware
+      restaurantApi.middleware,
+      personalUserDetailsApi.middleware
     );
   },
 });

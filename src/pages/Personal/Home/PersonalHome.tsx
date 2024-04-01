@@ -1,5 +1,5 @@
 //package
-import React from "react";
+import React, { useEffect } from "react";
 
 //css
 import defaultStyle from "./PersonalHome.module.css";
@@ -24,15 +24,41 @@ import burger from "@assets/burger.png";
 import { useGetAllRestaurantsQuery } from "../../../services/restaurant.service";
 import { useNavigate } from "react-router-dom";
 import routePaths from "@constants/routePaths";
+import { GetCookies } from "@helper/cookies.helper";
+import { useGetPersonalUserDetailsByIdQuery } from "../../../services/personalUserDetails.service";
+import { toast } from "react-toastify";
+import { userDetailsActions } from "../../../redux/features/userDetails.slice";
+import { useAppDispatch } from "../../../redux/store/store";
 
 //React Element
 const PersonalHome = (): React.ReactElement => {
-  const { data: restaurantData, error: restaurantError } =
+  const userId: string = GetCookies("personalId");
+
+  console.log(userId);
+
+  const { data: userDetailsData, isError: isUserDetailsError } =
+    useGetPersonalUserDetailsByIdQuery({ userId });
+  console.log("user id", true);
+  console.log(userDetailsData, isUserDetailsError);
+  const { data: restaurantData, isError: isRestaurantError } =
     useGetAllRestaurantsQuery("");
+
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  console.log("restaurant data = ", restaurantData);
+  useEffect(() => {
+    if (userDetailsData?.statusCode === 200) {
+      dispatch(
+        userDetailsActions.handleData({
+          name: userDetailsData.data.firstName,
+          imageUrl: userDetailsData.data.imageUrl,
+        })
+      );
+    } else if (isUserDetailsError) {
+      toast.error("Something went wrong!");
+    }
+  }, [userDetailsData, isUserDetailsError]);
 
   return (
     <>
