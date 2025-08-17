@@ -27,6 +27,9 @@ import { CreateRestaurantModels } from "../../../models/restaurant.model";
 import { RestaurantTags, restaurantTagsList } from "@constants/restaurant";
 import { useNavigate } from "react-router-dom";
 import routePaths from "@constants/routePaths";
+import { SUPABASE_FOLDERS, supabaseClient } from "@utils/supabase";
+import appConfig from "@config/index";
+import { toast } from "react-toastify";
 
 interface RefValueType {
   name: string | undefined;
@@ -104,22 +107,47 @@ const RestaurantDetails = (): React.ReactElement => {
       const validate = await handleValidateSchema(refValues);
 
       if (validate) {
-        const base64Image = await ConvertToBase64(imageFile as Blob);
+        let imageUrl = "";
+  
+        // Upload image to Supabase storage if a file is selected
+        if (imageFile) {
+          const fileExt = imageFile.name.split(".").pop();
+          const fileName = `image-${Date.now()}.${fileExt}`;
+          const filePath = `${SUPABASE_FOLDERS.USERS_PROFILE}/${fileName}`;
+  
+          const { error: uploadError } = await supabaseClient.storage
+            .from(appConfig.VITE_SUPABASE_BUCKET)
+            .upload(filePath, imageFile);
+  
+          if (uploadError) {
+            console.error("error while uploading image", uploadError);
+            throw uploadError;
+          }
+  
+          // Get the public URL of the uploaded file
+          const { data: { publicUrl } } = supabaseClient.storage
+            .from(appConfig.VITE_SUPABASE_BUCKET)
+            .getPublicUrl(filePath);
+  
+          imageUrl = publicUrl;
+        }
+  
 
         const body: CreateRestaurantModels = {
           _id,
           name: refValues.name as string,
-          imageUrl: base64Image,
+          imageUrl: imageUrl,
           deliveryDuration: refValues.deliveryDuration as string,
           minOrderVal: refValues.minOrderVal as number,
           tags: refValues.tags,
           menu: [],
         };
-        const response = await CreateRestaurant(body);
-        // console.log("response = ", response);
+        await CreateRestaurant(body);
+        toast.success("Restaurant created successfully!");
       }
     } catch (error) {
-      console.log("err ", error);
+      toast.error("Something went wrong!");
+      console.error("Error while creating restaurant", error);
     }
   };
 

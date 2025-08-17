@@ -38,8 +38,7 @@ const PersonalHome = (): React.ReactElement => {
 
   const { data: userDetailsData, isError: isUserDetailsError } =
     useGetPersonalUserDetailsByIdQuery({ userId });
-  console.log("user id", true);
-  console.log(userDetailsData, isUserDetailsError);
+
   const { data: restaurantData, isError: isRestaurantError } =
     useGetAllRestaurantsQuery("");
 

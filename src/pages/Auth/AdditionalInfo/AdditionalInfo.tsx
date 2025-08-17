@@ -3,11 +3,11 @@ import React, {
   FormEvent,
   FormEventHandler,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import appConfig from "@config/index";
 
 //css
 import defaultStyle from "./AdditionalInfo.module.css";
@@ -19,25 +19,20 @@ import DefaultTitle from "@components/Elements/DefaultTitle/DefaultTitle";
 import TimelineBar, {
   TimelineListType,
 } from "@components/Elements/TimelineBar/TimelineBar";
-import PrimaryForm, {
-  InputElementProperties,
-} from "@components/Form/PrimaryForm/PrimaryForm";
-import CustomButton, {
-  CustomButtonPropsType,
-} from "@components/Elements/CustomButton/CustomButton";
+import CustomButton from "@components/Elements/CustomButton/CustomButton";
 
 //constants
 import routePaths from "@constants/routePaths";
-import authTimelineList from "@constants/authTimeline";
 import { FaPlus } from "react-icons/fa";
 import { TimelineListFinder } from "@helper/timeline.helper";
-import { useAppDispatch, useAppSelector } from "../../../redux/store/store";
+import { useAppSelector } from "../../../redux/store/store";
 import colorTheme from "@constants/colorTheme";
 import { toast } from "react-toastify";
-import { ConvertToBase64 } from "@helper/base64.helper";
 import { YupFormValidator } from "@utils/yupFormValidator";
 import * as Yup from "yup";
 import { useCreatePersonalUserDetailsMutation } from "../../../services/personalUserDetails.service";
+import { supabaseClient } from "@utils/supabase/client";
+import { SUPABASE_FOLDERS } from "@utils/supabase/folders";
 
 const yupValidationSchema = Yup.object({
   imageUrl: Yup.string()
@@ -79,11 +74,35 @@ const AdditionalInfo = (): React.ReactElement => {
   const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     try {
-      const base64Image = await ConvertToBase64(imageFile);
+      let imageUrl = "";
+
+      // Upload image to Supabase storage if a file is selected
+      if (imageFile) {
+        const fileExt = imageFile.name.split(".").pop();
+        const fileName = `image-${Date.now()}.${fileExt}`;
+        const filePath = `${SUPABASE_FOLDERS.USERS_PROFILE}/${fileName}`;
+
+        const { error: uploadError } = await supabaseClient.storage
+          .from(appConfig.VITE_SUPABASE_BUCKET)
+          .upload(filePath, imageFile);
+
+        if (uploadError) {
+          console.error("error while uploading image", uploadError);
+          throw uploadError;
+        }
+
+        // Get the public URL of the uploaded file
+        const { data: { publicUrl } } = supabaseClient.storage
+          .from(appConfig.VITE_SUPABASE_BUCKET)
+          .getPublicUrl(filePath);
+
+        imageUrl = publicUrl;
+      }
+
       const validationData = {
         firstName: firstNameRef.current?.value,
-        lastName: lastNameRef.current?.value,
-        imageUrl: base64Image,
+        lastName: lastNameRef.current?.value ?? "",
+        imageUrl: imageUrl,
       };
 
       const yupValidation = new YupFormValidator(
@@ -96,7 +115,7 @@ const AdditionalInfo = (): React.ReactElement => {
         await CreatePersonalUserDetails({ ...validationData, _id: userId });
       }
     } catch (error) {
-      console.log("error = ", error);
+      console.error("error while creating user details", error);
       toast.error("something went wrong!");
     }
   };
@@ -166,7 +185,7 @@ const AdditionalInfo = (): React.ReactElement => {
                 ref={firstNameRef}
                 className={defaultStyle.name_input}
               />
-              {/* <label htmlFor="lastName" className={defaultStyle.name_label}>
+              <label htmlFor="lastName" className={defaultStyle.name_label}>
                 Last Name (optional)
               </label>
               <input
@@ -176,7 +195,7 @@ const AdditionalInfo = (): React.ReactElement => {
                 placeholder="Enter last name"
                 ref={lastNameRef}
                 className={defaultStyle.name_input}
-              /> */}
+              />
             </div>
             <div className={defaultStyle.button_card}>
               <CustomButton title="Continue" type="submit" variant="primary" />

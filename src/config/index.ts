@@ -5,6 +5,9 @@ const envVars = cleanEnv(import.meta.env, {
   VITE_API_PORT: port(),
   VITE_API_BASE_URL: str(),
   VITE_SESSION_TOKEN_NAME: str(),
+  VITE_SUPABASE_URL: str(),
+  VITE_SUPABASE_KEY: str(),
+  VITE_SUPABASE_BUCKET: str(),
 });
 
 export const {
@@ -12,4 +15,9 @@ export const {
   VITE_API_PORT,
   VITE_NODE_ENV,
   VITE_SESSION_TOKEN_NAME,
+  VITE_SUPABASE_URL,
+  VITE_SUPABASE_KEY,
+  VITE_SUPABASE_BUCKET,
 } = envVars;
+
+export default envVars;

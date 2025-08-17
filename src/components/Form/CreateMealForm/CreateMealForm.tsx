@@ -17,6 +17,8 @@ import {
 import { useCreateMenuItemMutation } from "../../../services/restaurant.service";
 import { ConvertToBase64 } from "@helper/base64.helper";
 import { toast } from "react-toastify";
+import { SUPABASE_FOLDERS, supabaseClient } from "@utils/supabase";
+import appConfig from "@config/index";
 
 //types
 export interface ModalFormPropsType {
@@ -33,7 +35,7 @@ interface RefValuesType {
   description: string | undefined;
   ingredients: string | undefined;
   nutritions: string | undefined;
-  imageUrl: Blob | undefined;
+  imageUrl: string | undefined;
 }
 
 const CreateMealForm = ({
@@ -53,7 +55,7 @@ const CreateMealForm = ({
   ] = useCreateMenuItemMutation();
 
   const formRef = useRef<HTMLFormElement>(null);
-  const categoryRef = useRef<HTMLSelectElement>(null);
+  const categoryRef = useRef<HTMLSelectElement>("lunch");
   const nameRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
@@ -104,6 +106,33 @@ const CreateMealForm = ({
     const nutritions = nutritionsRef.current?.value;
 
     try {
+
+      let imageUrl = "";
+
+      // Upload image to Supabase storage if a file is selected
+      if (imageFile) {
+        const fileExt = imageFile.name.split(".").pop();
+        const fileName = `image-${Date.now()}.${fileExt}`;
+        const filePath = `${SUPABASE_FOLDERS.FOODS}/${fileName}`;
+
+        const { error: uploadError } = await supabaseClient.storage
+          .from(appConfig.VITE_SUPABASE_BUCKET)
+          .upload(filePath, imageFile);
+
+        if (uploadError) {
+          console.error("error while uploading image", uploadError);
+          throw uploadError;
+        }
+
+        // Get the public URL of the uploaded file
+        const { data: { publicUrl } } = supabaseClient.storage
+          .from(appConfig.VITE_SUPABASE_BUCKET)
+          .getPublicUrl(filePath);
+
+        imageUrl = publicUrl;
+      }
+
+
       const refValues: RefValuesType = {
         category,
         name,
@@ -111,21 +140,20 @@ const CreateMealForm = ({
         description,
         ingredients,
         nutritions,
-        imageUrl: imageFile,
+        imageUrl,
       };
 
       const validate = await handleFormValidation(refValues);
 
       if (validate) {
         // setting form data
-        const base64Image = await ConvertToBase64(imageFile as Blob);
         const body: CreateMenuItemModels = {
           category: refValues.category as string,
           item: {
             name: refValues.name as string,
             price: refValues.price as number,
             description: refValues.description as string,
-            imageUrl: base64Image,
+            imageUrl,
             ingredients: refValues.ingredients as string,
             nutritions: refValues.nutritions as string,
           },
